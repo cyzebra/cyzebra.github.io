@@ -6,11 +6,12 @@ lang: en
 
 # Yanzhe Chen
 
-I am an undergraduate student and a member of the [FLINT Lab](https://www.lfhsgre.org/flint.html) at Shanghai Jiao Tong University.
+I am a member of the FLINT research group at Shanghai Jiao Tong University.
+My research interests include optimization and large language model training.
 
 [GitHub](https://github.com/cyzebra) · [OpenReview](https://openreview.net/profile?id=%7EYanzhe_Chen3)
 
-## Papers
+## Research
 
 ### Muon Sublates the Edge of Stability in LLM Pretraining
 
@@ -22,8 +23,8 @@ We study how conditional loss balance and consecutive-update alignment separate 
 
 ## Blog
 
-### [Does Muon Operate at the Edge of Stability in LLM Pretraining?](/blog/muon-eos-en/)
+### Does Muon Operate at the Edge of Stability in LLM Pretraining?
 
-What survives of classical EoS under no-momentum Muon, why loss balance separates from reversal, and what this suggests for learning-rate and batch-size schedules.
+A visual research guide: what survives of classical EoS under no-momentum Muon, why loss balance separates from reversal, and what this suggests for learning-rate and batch-size schedules.
 
-
+[Read the blog](/blog/muon-eos-en/)
