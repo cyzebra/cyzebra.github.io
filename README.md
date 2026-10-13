@@ -2,14 +2,14 @@
 
 Blog: **Does Muon Operate at the Edge of Stability in LLM Pretraining?**
 
-This visual edition includes 12 illustrations and 5 tables (one inside an expandable technical note). Seven Muon-paper figure crops and a credited classical EoS image provide experimental context. Three SVG diagrams explain geometry, split diagnostics and future schedule research; one SVG chart replots the paper's Table 2 and Appendix C.3 values. Conceptual diagrams are labeled separately from experimental measurements.
+This revised visual edition includes 10 illustrations and 3 tables. The geometry introduction comes before the main diagnostic comparison. Muon is introduced through its SVD-polar formula, all technical material appears directly in the article, and one combined reference replaces the former repeated comparison/diagnostic tables. The 130M module heatmap is grouped with block trajectories and probe-batch coherence from the same peak-rate baseline.
 
 ## Edit content
 
 - `index.md`: homepage introduction, research entries and blog entry.
 - `blog/muon-eos-en.md`: English article, headings, formulas, tables and captions.
 - `_config.yml`: site title and description.
-- `assets/images/muon/`: the twelve PNG/SVG illustrations referenced by the article. SVG files can be edited as vector sources.
+- `assets/images/muon/`: the ten referenced PNG/SVG illustrations and one original heatmap retained as a source for the grouped figure. SVG files can be edited as vector sources.
 - `_layouts/default.html`: navigation, footer and shared page structure.
 - `_includes/head-custom.html`: CSS styling and MathJax configuration.
 
@@ -30,4 +30,4 @@ Settings → Pages → Deploy from a branch → main → /(root).
 
 The published page loads MathJax from jsDelivr. The standalone preview embeds its figures and pre-rendered SVG formulas.
 
-Technical definitions and a local-linearization perspective are folded into two HTML `details` blocks. Preserve `<details markdown="1">`, `<summary>` and `</details>` when editing those blocks. The optional perturbation discussion is explanatory; the LLM runs do not measure perturbation stability.
+There are no folded `details` blocks. The local-linearization discussion is an intuitive explanation; LLM T1/T2 probes do not measure perturbation stability. The former polar-spectrum diagram and learning-rate bar chart have been removed. The learning-rate probe numbers remain in a table.

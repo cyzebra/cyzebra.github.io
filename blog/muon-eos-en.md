@@ -15,7 +15,7 @@ Yanzhe Chen · A visual research guide
 
 **Our answer is “sublates”: Muon preserves a stochastic loss-neutral edge, while separating loss balance from update reversal.**
 
-This post explains our [paper](https://arxiv.org/abs/2609.34915), joint work with Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu. We focus on **no-momentum Muon**, from exact-polar theory to language-model experiments up to 1B parameters. The figures below tell the story; longer definitions are tucked into expandable notes.
+This post explains our [paper](https://arxiv.org/abs/2609.34915), joint work with Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu. We focus on **no-momentum Muon**, from exact-polar theory to language-model experiments up to 1B parameters. The figures below tell the story, with the geometric intuition and technical definitions included directly in the text.
 
 [Paper](https://arxiv.org/abs/2609.34915) · [Code](https://github.com/cyzebra/Muon-Sublates-the-Edge-of-Stability-in-LLM-Pretraining)
 
@@ -29,51 +29,50 @@ This post explains our [paper](https://arxiv.org/abs/2609.34915), joint work wit
 
 In one scalar quadratic mode, GD makes the connection especially clear. Its update multiplier is $$1-\eta\lambda$$. At $$\eta\lambda=2$$, the multiplier is -1: loss is unchanged, consecutive updates reverse with equal magnitude, and the linear dynamics is marginally stable.
 
-## 2. What splits when we switch to Muon?
+## 2. An intuitive starting point: why GD is a special geometry
 
-![GD and Muon compared through loss balance, temporal direction and perturbation stability](/assets/images/muon/diagram-split-edge.svg)
+A small parameter perturbation changes the gradient, and the optimizer then turns that gradient change into an update change. **There are two pieces: the loss geometry and the optimizer's transformation.**
 
-*Figure 2. An explanatory map, not an experimental plot. The GD column concerns one scalar quadratic mode. Under Muon, loss balance, direction and perturbation stability require separate questions. T2 means temporal orthogonality; it does not mean exact reversal.*
-
-| Setting | Loss-neutral boundary | What happens to direction? |
-| --- | --- | --- |
-| GD: one scalar quadratic mode | $$\lambda=2/\eta$$ | Equal-magnitude reversal at the same boundary; sign reversal starts earlier, at $$\eta\lambda>1$$ |
-| Full-batch exact-polar Muon | $$s^M=2/\eta$$ | Loss curvature does not determine the cosine sign |
-| Stochastic exact-polar Muon | $$s_b^M=2\rho_b/\eta$$ | Boundary depends on state and batch coherence; temporal alignment is a separate diagnostic |
-
-The quantity on the left changes across optimizers: Muon's effective loss curvature is not GD's largest Hessian eigenvalue. The shared scale $$2/\eta$$ in the full-batch loss identity does not make every dynamical signature share one threshold.
-
-![An illustrative singular-value spectrum before and after the exact polar map](/assets/images/muon/diagram-polar-spectrum.svg)
-
-*Figure 3. A conceptual spectrum example. Exact polar normalization retains the active singular vectors and sets their singular values to one. The illustrated values are not measured training data.*
-
-This spectral transformation changes the update geometry. It is more than a uniform rescaling of the gradient.
-
-## 3. Two signals to read independently
-
-We use **T1** for conditional loss neutrality and **T2** for the zero-sign boundary of consecutive polar directions.
-
-| Signal | What it measures | How to interpret it |
-| --- | --- | --- |
-| $$s_b^M-2\rho_b/\eta$$ | Expected one-step loss change at a fixed state | Negative: loss-decrease side; zero: neutrality; positive: loss-increase side |
-| $$c^{\mathrm{pol}}$$ | Alignment of consecutive nonzero directions | Positive: acute; near zero: near orthogonal; negative: obtuse |
-| $$c^{\mathrm{pol}}=0$$ | T2's sign boundary | Orthogonality, not a stability test |
-| $$c^{\mathrm{pol}}=-1$$ | Exact directional reversal | Stronger than a negative cosine; a parameter return also requires matching update magnitudes and compatible update rules |
-
-The loss-neutral edge is
+For a smooth deterministic or fixed-batch transformation $$T$$, write
 
 $$
-\boxed{s_b^M=\frac{2\rho_b}{\eta}}.
+F(W)=W-\eta T(\nabla L(W)).
 $$
 
-Here, $$\rho_b$$ measures how much first-order descent the stochastic polar direction retains against the population or fixed full-data gradient. Effective curvature $$s_b^M$$ measures the normalized finite-step remainder along the actual update.
+Where the derivatives exist, the chain rule gives
 
-**The key distinction:** a negative temporal cosine tells us how two directions align. It cannot, by itself, tell us which side of T1 an update occupies.
+$$
+DF(W)=I-\eta\,DT(G)\circ\nabla^2L(W).
+$$
 
-<details markdown="1">
-<summary>Technical details: coherence, curvature and the exact loss identity</summary>
+GD uses $$T=\operatorname{Id}$$: the transformation contributes no extra geometry, and the local operator reduces to $$I-\eta H$$. A nonlinear update transformation adds its own derivative. This helps explain why loss balance, temporal direction and perturbation stability need not remain coupled under a different optimizer. The local formula assumes differentiability; rank changes require additional care.
 
-Fix $$W_k$$, let $$G_k=\nabla L(W_k)\ne0$$, and resample a minibatch of size $$b$$. Exact-polar no-momentum Muon uses $$P_k=\operatorname{Pol}(\widehat G_k)$$ and $$W_{k+1}=W_k-\eta P_k$$. Define
+### What is no-momentum Muon?
+
+For a minibatch matrix gradient with compact SVD, exact polar Muon uses
+
+$$
+\widehat G_k=U_r\Sigma_rV_r^\top,
+\qquad P_k=\operatorname{Pol}(\widehat G_k)=U_rV_r^\top,
+$$
+
+$$
+W_{k+1}=W_k-\eta P_k.
+$$
+
+It retains the active singular vectors and normalizes their singular values to one. This changes the spectral structure of the update, rather than uniformly rescaling the whole gradient. Our theoretical analysis isolates this exact, no-momentum update; the LLM experiments use the practical NS-5 approximation.
+
+## 3. One comparison, separate diagnostics
+
+![Combined GD and Muon comparison for loss balance, temporal sign, exact reversal and local perturbations](/assets/images/muon/diagram-split-edge.svg)
+
+*Figure 2. A combined diagnostic reference. The GD column describes a scalar quadratic mode; the Muon column separates the stochastic loss edge, temporal orthogonality, exact reversal and local perturbations. The Jacobian perspective is explanatory: our LLM T1/T2 probes do not measure perturbation stability.*
+
+This single comparison collects the roles that classical EoS tends to bring together. The definitions below explain how we measure the loss and direction columns.
+
+### Loss balance: the exact conditional identity
+
+Fix $$W_k$$, let $$G_k=\nabla L(W_k)\ne0$$, and resample a minibatch of size $$b$$. Define
 
 $$
 \rho_b(W_k)=\frac{\mathbb{E}_b\langle G_k,P_k\rangle_F}{\|G_k\|_*},
@@ -83,14 +82,18 @@ $$
 s_b^M(W_k;\eta)=\frac{2\mathbb{E}_b\left[L(W_k-\eta P_k)-L(W_k)+\eta\langle G_k,P_k\rangle_F\right]}{\eta^2\|G_k\|_*}.
 $$
 
-The nuclear norm $$\|G_k\|_*$$ is the sum of gradient singular values. Coherence lies in $$[-1,1]$$; an unbiased minibatch gradient need not induce an unbiased polar direction. These definitions give the exact conditional identity
+The nuclear norm $$\|G_k\|_*$$ is the sum of gradient singular values. Coherence $$\rho_b\in[-1,1]$$ measures retained first-order descent; $$s_b^M$$ measures the normalized finite-step loss remainder. An unbiased minibatch gradient need not induce an unbiased polar direction.
+
+These definitions give
 
 $$
 \mathbb{E}_b\left[L(W_{k+1})-L(W_k)\mid W_k\right]
 =\frac{\eta^2\|G_k\|_*}{2}\left(s_b^M-\frac{2\rho_b}{\eta}\right).
 $$
 
-Full-batch exact-polar updates have $$\rho_{\mathrm{full}}=1$$. Under additional second-order smoothness, the small-step limit of $$s_b^M$$ is normalized directional Hessian curvature. Its finite-step definition is not simply a maximum Hessian eigenvalue.
+**The bracket determines the loss-change sign.** T1 is its zero boundary. Full-batch exact-polar updates have $$\rho_{\mathrm{full}}=1$$, recovering the loss-neutral scale $$2/\eta$$. Effective Muon curvature is not GD's maximum Hessian eigenvalue; under additional second-order smoothness, its small-step limit is normalized directional curvature.
+
+### Temporal direction: a different measurement
 
 For consecutive nonzero directions,
 
@@ -98,41 +101,26 @@ $$
 c_k^{\mathrm{pol}}=\frac{\langle P_k,P_{k+1}\rangle_F}{\|P_k\|_F\|P_{k+1}\|_F}.
 $$
 
-A matrix quadratic proves the separation directly. At the same learning rate and full coherence, the paper constructs two states with:
+**Negative alignment does not determine which side of T1 the update occupies.** A matrix quadratic proves this directly: at the same learning rate and full coherence, the paper constructs two states with
 
 | State | Effective loss curvature | Consecutive cosine |
 | --- | --- | --- |
 | A | $$5/(4\eta)$$ | $$-1$$ |
 | B | $$5/(4\eta)$$ | $$1/3$$ |
 
-Both decrease loss, but their direction signs differ. Curvature depends on a spectral trace; alignment depends on an eigenvalue sign count. The construction and assumptions appear in paper §2.3.
-
-</details>
-
-<details markdown="1">
-<summary>Technical perspective: why GD is a special geometry</summary>
-
-For a differentiable gradient transformation $$T$$, write an update map as $$F(W)=W-\eta T(\nabla L(W))$$. Wherever the derivatives exist, the chain rule gives the local parameter-perturbation operator
-
-$$
-DF(W)=I-\eta\,DT(G)\circ\nabla^2L(W).
-$$
-
-GD has $$T=\operatorname{Id}$$, so this reduces to $$I-\eta H$$. A nonlinear polar transformation adds update geometry through its derivative. This local linearization explains why perturbation stability is an additional question; our LLM T1/T2 measurements do not measure that operator's stability. Rank changes or nondifferentiable points require additional care.
-
-</details>
+Both decrease loss, but their direction signs differ. Curvature depends on a spectral trace; alignment depends on an eigenvalue sign count. The construction and assumptions appear in paper §2.3. A negative cosine alone also does not establish a two-step parameter return.
 
 ## 4. Does batch size change the picture?
 
 ![Controlled Transformer loss, conditional loss balance and temporal direction across batches](/assets/images/muon/figure1-controlled.png)
 
-*Figure 4. Exact SVD-polar Transformer, fixed learning rate 0.007. Compare the same batch's loss, loss-boundary tracking and direction cosine across the three panels. From the top row of paper Figure 1.*
+*Figure 3. Exact SVD-polar Transformer, fixed learning rate 0.007. Compare the same batch's loss, loss-boundary tracking and direction cosine across the three panels. From the top row of paper Figure 1.*
 
 **Look at the right panel:** larger batches produce more negative alignment in these runs; small batches stay closer to orthogonality. Full-batch trajectories move toward coherent reversal without reaching it in the displayed global measurements.
 
 ![First loss-rise, T1 and T2 events in controlled MLP, CNN and Transformer](/assets/images/muon/figure3-event-order.png)
 
-*Figure 5. Recorded first events at learning rate 0.007. Red is T1 and blue is T2. Compare their order within each batch configuration. From paper Figure 3; event detection uses the paper's recorded tolerances.*
+*Figure 4. Recorded first events at learning rate 0.007. Red is T1 and blue is T2. Compare their order within each batch configuration. From paper Figure 3; event detection uses the paper's recorded tolerances.*
 
 **The order can swap.** In the displayed MLP, batch 64 has T2 before T1, while batch 4096 has T1 before T2. The two diagnostics do not mark one universal event.
 
@@ -150,19 +138,21 @@ The LLM runs use no-momentum NS-5 approximation on Muon blocks and AdamW on auxi
 
 ![130M loss, conditional loss boundary and consecutive direction cosine](/assets/images/muon/figure1-130m.png)
 
-*Figure 6. Peak learning rate 0.02. The conditional effective curvature repeatedly approaches the corrected boundary, while global directions stay far from complete reversal. From the bottom row of paper Figure 1.*
+*Figure 5. Peak learning rate 0.02. The conditional effective curvature repeatedly approaches the corrected boundary, while global directions stay far from complete reversal. From the bottom row of paper Figure 1.*
 
 Across the four peak-rate runs, full-horizon cosine medians range from approximately -0.048 to -0.032. Loss neutrality comes from finite-reference **Muon-only checkpoint probes**; validation improvement belongs to complete **Muon-plus-AdamW training**. A near-zero probe increment does not mean the full run has stopped learning.
 
-![130M module-by-layer median direction cosine heatmap](/assets/images/muon/figure6-module-heatmap.png)
+![130M module medians, block trajectories and probe-batch coherence in a grouped diagnostic figure](/assets/images/muon/figure-130m-diagnostics.png)
 
-*Figure 7. Rows are layers; columns are matrix modules. Redder cells have more negative alignment. Middle-layer key/value matrices differ from many query matrices, so a global cosine hides heterogeneity. From paper Figure 6, constant-rate stage, peak rate 0.02.*
+*Figure 6. Three complementary views of the 130M baseline at peak rate 0.02: (a) module-by-layer median cosine, (b) alignment trajectories, and (c) reference-gradient coherence for different probe batches. Panels reproduce paper Figures 6, 19(a) and 5(a), respectively; curves and color scales are unchanged.*
+
+**Read across the panels:** the heatmap locates stronger negative alignment; the trajectories show how alignment evolves; the coherence curves show how sampling changes the loss-side signal. Middle-layer key/value matrices differ from many query matrices, and larger probe batches generally strengthen reference coherence.
 
 ### Is near orthogonality just minibatch randomness?
 
 ![Frozen-state direction comparisons and temporal cosines for two Tiny Transformer seeds](/assets/images/muon/figure11-frozen-vs-time.png)
 
-*Figure 8. Orange: independent minibatch directions at a fixed state. Blue: actual consecutive-step directions. Orange bars are 95% delete-one-batch jackknife intervals. From paper Figure 11; Tiny Transformer, batch eight, two seeds.*
+*Figure 7. Orange: independent minibatch directions at a fixed state. Blue: actual consecutive-step directions. Orange bars are 95% delete-one-batch jackknife intervals. From paper Figure 11; Tiny Transformer, batch eight, two seeds.*
 
 Frozen-state averages are small and positive; stable-stage temporal averages are negative. This supports sampling dispersion as a source of weak alignment and state changes as a source of negative bias. Since both Muon and AdamW change the state, the feedback cannot be assigned to either optimizer alone.
 
@@ -170,7 +160,7 @@ Frozen-state averages are small and positive; stable-stage temporal averages are
 
 ![1B training and validation loss, global cosine and layer-level cosines](/assets/images/muon/figure8-1b.png)
 
-*Figure 9. Loss keeps improving despite more negative global alignment; layer trajectories also differ. From paper Figure 8.*
+*Figure 8. Loss keeps improving despite more negative global alignment; layer trajectories also differ. From paper Figure 8.*
 
 The 1B run remains far from exact reversal. Its larger batch is consistent with the controlled trend, but a 130M-to-1B comparison changes multiple factors and cannot isolate batch size. **No T1 probes were collected for 1B.**
 
@@ -178,9 +168,7 @@ The 1B run remains far from exact reversal. Its larger batch is consistent with 
 
 We branch from rate 0.04 to 0.02, 0.04 or 0.08, keeping each model's batch size and auxiliary AdamW schedule fixed. The shared states are step 4000 for 22M and step 7000 for 130M.
 
-![Measured conditional loss responses and later temporal cosine means in 22M learning-rate branches](/assets/images/muon/chart-lr-probe-response.svg)
-
-*Figure 10. Replotted from paper Table 2 and Appendix C.3, without new measurements. Left: one-step conditional probes at step 4000, with 95% intervals. Right: temporal means during steps 5000–6399. These are different horizons; the cosine means have no reported intervals.*
+The table pairs one-step conditional probes at step 4000 with temporal means during steps 5000–6399. These are different horizons; the cosine means have no reported intervals.
 
 | Muon rate | Conditional loss increment | 95% probe interval | Later mean cosine |
 | --- | --- | --- | --- |
@@ -192,7 +180,7 @@ We branch from rate 0.04 to 0.02, 0.04 or 0.08, keeping each model's batch size 
 
 ![Validation loss and temporal cosine after 22M and 130M learning-rate changes](/assets/images/muon/figure7-lr-perturbation.png)
 
-*Figure 11. Rate changes initially shift temporal alignment, which then tends back toward its pre-change value. Grey regions mark decay. From paper Figure 7. These validation curves are distinct from the one-step conditional probes in Figure 10.*
+*Figure 9. Rate changes initially shift temporal alignment, which then tends back toward its pre-change value. Grey regions mark decay. From paper Figure 7. These validation curves are distinct from the one-step conditional probe values in the table above.*
 
 Some larger-rate branches improve later validation loss. That motivates investigating schedules; it does not establish “raise the rate whenever cosine is near zero” as a rule.
 
@@ -200,7 +188,7 @@ Some larger-rate branches improve later validation loss. That motivates investig
 
 ![A proposed research workflow using loss-side and trajectory-side diagnostics](/assets/images/muon/diagram-joint-schedule.svg)
 
-*Figure 12. A research workflow motivated by the separation, not a validated adaptive scheduler. Compare candidate learning rates or batches using both diagnostics, validation loss and token budgets.*
+*Figure 10. A research workflow motivated by the separation, not a validated adaptive scheduler. Compare candidate learning rates or batches using both diagnostics, validation loss and token budgets.*
 
 T1 measures one-step loss cost. Temporal alignment measures directional reinforcement or cancellation. Their joint response may inform WSD learning-rate choices and a data-driven critical batch size. Converting that idea into an optimized scheduler remains future work.
 
@@ -212,4 +200,4 @@ Momentum adds temporal filtering and optimizer state. The no-momentum results he
 
 Yanzhe Chen, Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu. [*Muon Sublates the Edge of Stability in LLM Pretraining*](https://arxiv.org/abs/2609.34915), arXiv v1.
 
-Figures 4–9 and 11 reproduce the paper's measured results. Figure 10 visualizes reported numbers. Figures 2, 3 and 12 are explanatory diagrams created for this blog; Figure 1 is credited separately. Full assumptions, proofs and protocols are in the [paper](https://arxiv.org/abs/2609.34915) and [code](https://github.com/cyzebra/Muon-Sublates-the-Edge-of-Stability-in-LLM-Pretraining). Background: [Cohen et al. (2021)](https://openreview.net/forum?id=jh-rTtvkGeM) and [Jordan et al. on Muon](https://kellerjordan.github.io/posts/muon/).
+Figures 3–9 reproduce or combine the paper's measured results; the learning-rate table uses paper Table 2 and Appendix C.3. Figures 2 and 10 are explanatory diagrams created for this blog; Figure 1 is credited separately. Full assumptions, proofs and protocols are in the [paper](https://arxiv.org/abs/2609.34915) and [code](https://github.com/cyzebra/Muon-Sublates-the-Edge-of-Stability-in-LLM-Pretraining). Background: [Cohen et al. (2021)](https://openreview.net/forum?id=jh-rTtvkGeM) and [Jordan et al. on Muon](https://kellerjordan.github.io/posts/muon/).
