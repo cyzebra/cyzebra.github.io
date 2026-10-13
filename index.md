@@ -27,4 +27,4 @@ We study how conditional loss balance and consecutive-update alignment separate 
 
 A visual research guide: what survives of classical EoS under no-momentum Muon, why loss balance separates from reversal, and what this suggests for learning-rate and batch-size schedules.
 
-[Read the blog](/blog/muon-eos-en/)
+[Read the blog]({{ '/blog/muon-eos-en/' | relative_url }})

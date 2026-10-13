@@ -1,0 +1,6 @@
+<figure class="research-figure">
+  <a class="figure-link" href="{{ include.src | relative_url }}" aria-label="Open full-size figure: {{ include.alt | escape }}">
+    <img src="{{ include.src | relative_url }}" alt="{{ include.alt | escape }}" loading="lazy" decoding="async">
+  </a>
+  <figcaption>{{ include.caption | markdownify }}</figcaption>
+</figure>

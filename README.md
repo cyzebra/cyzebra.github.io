@@ -1,33 +1,30 @@
 # Yanzhe Chen — academic homepage and English research blog
 
-Blog: **Does Muon Operate at the Edge of Stability in LLM Pretraining?**
+This edition restructures the article into six sections: GD intuition, Muon geometry, two diagnostics, experiments, learning-rate interventions, and outlook. It uses eight numbered figures and four tables. All technical discussion remains in the main article.
 
-This revised visual edition includes 10 illustrations and 3 tables. The geometry introduction comes before the main diagnostic comparison. Muon is introduced through its SVD-polar formula, all technical material appears directly in the article, and one combined reference replaces the former repeated comparison/diagnostic tables. The 130M module heatmap is grouped with block trajectories and probe-batch coherence from the same peak-rate baseline.
+## Edit the site
 
-## Edit content
+| Content | File |
+| --- | --- |
+| Homepage introduction and research/blog entries | `index.md` |
+| Article text, formulas, tables, and single-figure captions | `blog/muon-eos-en.md` |
+| Fonts, widths, spacing, colours, mobile and print styles | `assets/style.css` |
+| Shared figure markup | `_includes/figure.html` |
+| Three-panel diagnostic figure and its caption | `_includes/diagnostic-grid.html` |
+| Learning-rate figure and its caption | `_includes/intervention-grid.html` |
+| MathJax configuration | `_includes/head-custom.html` |
+| Navigation and footer | `_layouts/default.html` |
+| Site name, URL and repository subpath | `_config.yml` |
+| Figure files | `assets/images/muon/` |
 
-- `index.md`: homepage introduction, research entries and blog entry.
-- `blog/muon-eos-en.md`: English article, headings, formulas, tables and captions.
-- `_config.yml`: site title and description.
-- `assets/images/muon/`: the ten referenced PNG/SVG illustrations and one original heatmap retained as a source for the grouped figure. SVG files can be edited as vector sources.
-- `_layouts/default.html`: navigation, footer and shared page structure.
-- `_includes/head-custom.html`: CSS styling and MathJax configuration.
+Use `$$...$$` on one line for inline math in Jekyll/Kramdown; put the opening and closing `$$` on their own lines for display equations. Keep blank lines around display equations, tables and includes. The MathJax configuration handles Kramdown's generated math scripts.
 
-For everyday writing, edit the first two files. Keep `permalink: /blog/muon-eos-en/` unchanged to preserve existing links.
+Single figures use the `figure.html` include with `src`, `alt` and Markdown `caption` parameters. Internal links and figure paths use `relative_url`, so they also work with a repository `baseurl`. Images can be opened at full resolution by clicking them. The two grouped figures stack vertically on narrow screens; tables scroll within their own containers.
 
-## Remove the old Chinese page
+## Publish on GitHub Pages
 
-The Chinese article is no longer included. Uploading these files does not delete old remote files. Delete `blog/muon-eos-zh.md` in GitHub separately. This package removes its links from the homepage and English article.
+Upload the **contents** of `github-pages/` into the repository root. Keep your existing personal homepage content when merging `index.md`. Pages should build from `main` and `/(root)`; do not add `.nojekyll`. Existing article permalinks are retained.
 
-## Publish
+The Chinese article is absent from this package. If an old `blog/muon-eos-zh.md` remains in your repository, delete it separately: uploading a new package does not delete remote files.
 
-Upload this folder's contents to the root of `cyzebra.github.io`. Merge your personal homepage edits before replacing `index.md`.
-
-Settings → Pages → Deploy from a branch → main → /(root).
-
-- Home: https://cyzebra.github.io/
-- Blog: https://cyzebra.github.io/blog/muon-eos-en/
-
-The published page loads MathJax from jsDelivr. The standalone preview embeds its figures and pre-rendered SVG formulas.
-
-There are no folded `details` blocks. The local-linearization discussion is an intuitive explanation; LLM T1/T2 probes do not measure perturbation stability. The former polar-spectrum diagram and learning-rate bar chart have been removed. The learning-rate probe numbers remain in a table.
+The preview outside this folder is for local reading and should not be uploaded. It embeds figures and renders formulas as static SVG; the published site uses MathJax. Original source figures are retained for future edits. Numerical results and plots have not been re-estimated.
