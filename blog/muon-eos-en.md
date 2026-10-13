@@ -15,7 +15,7 @@ article: true
 
 <p class="byline">Yanzhe Chen · With Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu</p>
 
-<p class="standfirst">Muon preserves a loss-neutral edge, but that edge no longer requires consecutive updates to reverse. This separation is the central idea behind our paper.</p>
+<p class="standfirst">Our answer is “sublate” (from Hegelian philosophy)：It separates loss balance from update reversal (up to 1B model) .</p>
 
 <div class="article-links">
 <a href="https://arxiv.org/abs/2609.34915">Read the paper ↗</a>
@@ -23,9 +23,6 @@ article: true
 </div>
 </div>
 
-<div class="takeaway" markdown="1">
-**The finding in one sentence.** Under no-momentum Muon, conditional loss balance and consecutive-update alignment are separate diagnostics: training can track a loss boundary while updates remain weakly negative and close to orthogonal.
-</div>
 
 <nav class="article-toc" aria-label="Article contents">
 <span>In this article</span>
@@ -119,7 +116,7 @@ $$
 $$
 
 <div class="takeaway" markdown="1">
-**Read the bracket.** Below the boundary, the expected loss increment is negative; on it, zero; above it, positive. Full-batch exact-polar Muon has $$\rho_{\mathrm{full}}=1$$, recovering the scale $$2/\eta$$.
+Below the boundary, the expected loss increment is negative; on it, zero; above it, positive. Full-batch exact-polar Muon has $$\rho_{\mathrm{full}}=1$$, recovering the scale $$2/\eta$$.
 </div>
 
 This effective Muon curvature is not GD's maximum Hessian eigenvalue. Under additional second-order smoothness, its small-step limit is a normalized directional curvature.
@@ -243,11 +240,6 @@ Their joint response may inform WSD learning-rate choices and a data-driven crit
 
 <div class="article-sources" markdown="1">
 
-### Paper, code and figure sources
-
-Yanzhe Chen, Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu. [*Muon Sublates the Edge of Stability in LLM Pretraining*](https://arxiv.org/abs/2609.34915), arXiv v1. [Source code](https://github.com/cyzebra/Muon-Sublates-the-Edge-of-Stability-in-LLM-Pretraining).
-
-Figures 2–8 reproduce or regroup the paper's measured results; Figure 1 is credited separately. The rate table follows paper Table 2 and Appendix C.3. Full assumptions, proofs and protocols are in the paper. Background reading: [Cohen et al. (2021)](https://openreview.net/forum?id=jh-rTtvkGeM) and [Jordan et al. on Muon](https://kellerjordan.github.io/posts/muon/).
 
 [Back to top](#top) · [Back to home]({{ '/' | relative_url }})
 
