@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title | escape }} | {{ site.title | escape }}</title>
+  <meta name="description" content="{{ page.description | default: site.description | escape }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  {% include head-custom.html %}
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ '/' | relative_url }}">{{ site.title | escape }}</a>
+    <nav aria-label="Main navigation">
+      <a href="{{ '/' | relative_url }}">Home</a>
+      <a href="{{ '/#research' | relative_url }}">Research</a>
+      <a href="{{ '/#blog' | relative_url }}">Blog</a>
+      <a href="https://github.com/cyzebra">GitHub</a>
+    </nav>
+  </header>
+  <main><article>{{ content }}</article></main>
+  <footer>Yanzhe Chen · Research notes · <a href="https://github.com/cyzebra">GitHub</a></footer>
+</body>
+</html>

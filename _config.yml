@@ -1,17 +1,12 @@
 title: Yanzhe Chen
-description: Research on optimization and large language models
-
-theme: jekyll-theme-minimal
-
+description: Optimization and large language model training
 url: "https://cyzebra.github.io"
 baseurl: ""
-
 lang: en
 timezone: Asia/Shanghai
-
 markdown: kramdown
 kramdown:
   input: GFM
   math_engine: mathjax
-
-show_downloads: false
+exclude:
+  - README.md

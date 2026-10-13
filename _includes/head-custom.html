@@ -1,19 +1,41 @@
+<style>
+  :root { color-scheme: light; --ink:#20304a; --muted:#627087; --link:#175fc1; }
+  * { box-sizing: border-box; }
+  body { margin:0; color:var(--ink); background:#fff; font:17px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif; overflow-wrap:break-word; }
+  .site-header { max-width:1100px; margin:auto; padding:23px 28px; display:flex; justify-content:space-between; align-items:center; gap:20px; border-bottom:1px solid #e5eaf1; }
+  .brand { font-weight:700; color:var(--ink); text-decoration:none; }
+  nav { display:flex; gap:20px; font-size:14px; flex-wrap:wrap; }
+  main { max-width:980px; padding:44px 28px 64px; margin:auto; }
+  h1,h2,h3 { line-height:1.35; letter-spacing:-.02em; color:#16243c; }
+  h1 { font-size:clamp(28px,4.5vw,42px); margin:22px 0 28px; }
+  h2 { font-size:27px; margin:48px 0 18px; padding-top:10px; }
+  h3 { font-size:21px; margin:32px 0 12px; }
+  p { margin:18px 0; }
+  a { color:var(--link); text-underline-offset:3px; }
+  img { display:block; max-width:100%; height:auto; margin:28px auto 12px; }
+  p:has(> em:only-child) { color:var(--muted); font-size:14px; line-height:1.65; }
+  table { width:100%; border-collapse:collapse; margin:24px 0; font-size:15px; }
+  th,td { text-align:left; border-bottom:1px solid #dfe5ed; padding:12px 14px; }
+  th { background:#f2f5fa; }
+  code { background:#f1f4f8; border-radius:4px; padding:2px 5px; font-size:.9em; }
+  pre { background:#f1f4f8; padding:18px; border-radius:8px; overflow:auto; }
+  pre code { padding:0; }
+  blockquote { margin:24px 0; padding:4px 20px; border-left:3px solid #8aaee2; background:#f6f8fc; }
+  hr { border:0; border-top:1px solid #e5eaf1; margin:40px 0; }
+  footer { max-width:980px; margin:auto; padding:24px 28px 40px; border-top:1px solid #e5eaf1; color:var(--muted); font-size:13px; }
+  mjx-container[display="true"] { overflow-x:auto; overflow-y:hidden; padding:12px 0; }
+  @media(max-width:600px) { body {font-size:16px;} .site-header {padding:18px 20px; flex-direction:column; align-items:flex-start; gap:8px;} main {padding:24px 20px 44px;} h2 {font-size:23px;} th,td {padding:9px 7px; font-size:13px;} }
+</style>
 {% if page.math %}
 <script>
 window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true
-  },
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]'], ['$$', '$$']], processEscapes: true },
   options: {
     renderActions: {
       findScript: [10, function (doc) {
         for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
           const display = /;\s*mode=display/.test(node.type);
-          const math = new doc.options.MathItem(
-            node.textContent, doc.inputJax[0], display
-          );
+          const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
           const text = document.createTextNode('');
           node.parentNode.replaceChild(text, node);
           math.start = {node: text, delim: '', n: 0};
@@ -25,7 +47,5 @@ window.MathJax = {
   }
 };
 </script>
-<script defer
-  src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js">
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
 {% endif %}
