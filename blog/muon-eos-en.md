@@ -14,7 +14,7 @@ animations: true
 
 # How Muon Reshapes the Edge of Stability
 
-<p class="byline">Yanzhe Chen · With Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu</p>
+<p class="byline">Yanzhe Chen </p>
 <p class="standfirst">A loss‑neutral edge survives. Its classical coupling to update reversal does not.</p>
 <div class="article-links"><a href="https://arxiv.org/abs/2609.34915">Paper ↗</a><a href="https://github.com/cyzebra/Muon-Sublates-the-Edge-of-Stability-in-LLM-Pretraining">Code ↗</a></div>
 </div>
