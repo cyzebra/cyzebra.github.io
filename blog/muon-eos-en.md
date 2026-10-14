@@ -1,21 +1,22 @@
 ---
 layout: default
-title: "Does Muon Operate at the Edge of Stability in LLM Pretraining?"
-description: "What survives of classical EoS under no-momentum Muon—and why loss balance and update reversal separate."
+title: "What Does the Edge of Stability Mean for Muon?"
+description: "Stability, training at an edge, and the separation of loss balance from update reversal under no-momentum Muon."
 permalink: /blog/muon-eos-en/
 lang: en
 math: true
 article: true
+animations: true
 ---
 
 <div class="article-header" markdown="1">
-<p class="eyebrow">Optimization · Research notes</p>
+<p class="eyebrow">Optimization · Muon · LLM pretraining</p>
 
-# Does Muon Operate at the Edge of Stability in LLM Pretraining?
+# What Does the Edge of Stability Mean for Muon?
 
 <p class="byline">Yanzhe Chen · With Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu</p>
 
-<p class="standfirst">Our answer is “sublate” (from Hegelian philosophy)：It separates loss balance from update reversal (up to 1B model) .</p>
+<p class="standfirst">Loss can track a boundary while successive updates remain almost orthogonal. Muon asks us to separate the edge we measure from the stability we analyze.</p>
 
 <div class="article-links">
 <a href="https://arxiv.org/abs/2609.34915">Read the paper ↗</a>
@@ -23,34 +24,61 @@ article: true
 </div>
 </div>
 
+**Does the classical edge-of-stability picture survive a different optimizer geometry?** In our no-momentum Muon experiments, conditional loss balance and consecutive-update alignment separate: a loss-side boundary can be tracked while directions stay weakly negative and far from exact reversal.
+
+There are two questions to keep apart. One asks whether a small perturbation near a fixed point grows. The other asks where an actual training trajectory spends its time. Our loss and direction probes then ask two more specific questions. The opening animations explain these distinctions before the formulas.
+
+{% include edge-animation.html %}
+
+{% include reading-animation.html %}
+
+<div class="takeaway" markdown="1">
+**Our contribution in one sentence.** Exact-polar theory identifies a conditional loss-balance boundary; training experiments probe how that boundary and temporal alignment behave separately. Observing either diagnostic is not, by itself, a proof of perturbation stability.
+</div>
 
 <nav class="article-toc" aria-label="Article contents">
 <span>In this article</span>
-<a href="#gd">01 · GD intuition</a>
+<a href="#stability">01 · Stability ≠ edge tracking</a>
 <a href="#muon">02 · Muon geometry</a>
-<a href="#diagnostics">03 · Two diagnostics</a>
-<a href="#experiments">04 · Experiments</a>
+<a href="#diagnostics">03 · What we measure</a>
+<a href="#experiments">04 · Training evidence</a>
 <a href="#interventions">05 · Rate changes</a>
-<a href="#outlook">06 · Outlook</a>
+<a href="#scale">06 · Noise and scale</a>
+<a href="#outlook">Outlook</a>
 </nav>
 
-The word *sublates* in our title means preserving part of an idea while changing its structure. Here, the part that survives is a loss-neutral boundary. What changes is its relationship to temporal reversal. We study this in exact-polar models and in practical language-model runs up to 1B parameters, always focusing on **Muon without momentum**.
+<h2 id="stability">1. Stability and training at an edge are different questions</h2>
 
-<h2 id="gd">1. Why GD brings the classical picture together</h2>
+### A local stability question
 
-For gradient descent (GD), the edge of stability is commonly associated with curvature approaching the learning-rate scale $$2/\eta$$. Training loss can oscillate over short intervals while continuing to decrease over longer horizons.
-
-{% include figure.html src="/assets/images/muon/classical-eos-litman2026.png" alt="Classical GD: curvature tracks the learning-rate boundary while loss oscillates and decreases." caption="**Figure 1 · The classical picture.** Full-batch GD on a three-layer MLP, CIFAR-10, learning rate 0.5. Read curvature on the left together with loss on the right. Reproduced unchanged from [Litman (2026), Figure 1](https://arxiv.org/html/2604.20446v1#S1.F1), under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)." %}
-
-The connection is easiest to see in a single quadratic mode. If $$L(x)=\lambda x^2/2$$, then
+[Wu, Ma and E (2018)](https://proceedings.neurips.cc/paper/2018/file/6651526b6fb8f29a00507de6a49ce30f-Paper.pdf) study fixed-point selection through linearized stochastic dynamics. Their stability definition bounds the second moment of perturbations. In a scalar quadratic example with i.i.d. sampled curvatures $$a_\xi$$, write $$\bar a=\mathbb{E}[a_\xi]$$ and $$\sigma_a^2=\operatorname{Var}(a_\xi)$$. The second-moment multiplier is
 
 $$
-x_{k+1}=(1-\eta\lambda)x_k.
+\mathbb{E}[(1-\eta a_\xi)^2]=(1-\eta\bar a)^2+\eta^2\sigma_a^2.
 $$
 
-When $$\eta\lambda=2$$, the multiplier is $$-1$$. The parameter changes sign without changing magnitude; the loss is unchanged; consecutive updates reverse exactly. For this scalar mode, loss balance, exact reversal and marginal linear stability meet at the same point. The direction sign changes earlier, at $$\eta\lambda=1$$; at that exact value the next update is zero and its cosine is undefined.
+Bounded second moments require this multiplier to be at most one. Thus average curvature alone does not characterize this stochastic stability notion. This example is about perturbations around a fixed point; it does not imply that training approaches the boundary.
 
-**Why can GD couple these phenomena so tightly?** A perturbation changes the gradient, and GD passes that gradient change directly into the update. Muon inserts a different transformation between those two steps.
+### A trajectory question
+
+[Cohen et al. (2021)](https://arxiv.org/abs/2103.00065) report a different phenomenon: in full-batch neural-network GD, the maximum Hessian eigenvalue hovers just above $$2/\eta$$, while loss is non-monotone locally but decreases over longer horizons. The observation concerns a changing training trajectory, not a frozen quadratic.
+
+{% include figure.html src="/assets/images/muon/classical-eos-litman2026.png" alt="Classical neural-network GD: maximum curvature tracks the learning-rate scale while loss oscillates and improves." caption="**Figure 1 · A measured trajectory, rather than the toy animation.** Full-batch GD on a three-layer MLP, CIFAR-10, learning rate 0.5. Curvature and loss evolve during training. Reproduced unchanged from [Litman (2026), Figure 1](https://arxiv.org/html/2604.20446v1#S1.F1), under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)." %}
+
+The boundary calculation explains a local scale. Sustained proximity to it is an additional empirical fact. The toy animation shows why neither stability nor oscillation alone establishes such proximity.
+
+<div class="table-wrap" markdown="1">
+
+| Question | Object being studied | Evidence needed |
+| :--- | :--- | :--- |
+| Is a fixed point locally stable? | Growth of small perturbations | Linearized dynamics and an explicit stability notion |
+| Does training take place near an edge? | A time-varying training trajectory | Sustained tracking of a specified boundary |
+| Is the conditional step loss-neutral? | Expected one-step loss change at a fixed state | The conditional loss identity and probes (**T1**) |
+| Do consecutive updates reinforce or cancel? | Two nonzero temporal directions | Their cosine (**T2**) |
+
+</div>
+
+**Our blog keeps these four questions separate.** In particular, conditional loss neutrality is not a general substitute for stochastic perturbation stability. The distinction becomes especially useful when changing from GD to Muon.
 
 <h2 id="muon">2. Muon changes the geometry of an update</h2>
 
@@ -64,7 +92,13 @@ $$
 
 Muon keeps the active singular vectors and normalizes their singular values to one. It changes the spectral structure of the update, rather than simply scaling the entire gradient by one number. The theory below isolates this exact polar update; our LLM experiments use the practical five-step Newton–Schulz approximation, **NS-5**.
 
-### The geometric reason to expect a separation
+### Why GD links several thresholds in a scalar mode
+
+For $$L(x)=\lambda x^2/2$$, GD has multiplier $$1-\eta\lambda$$. At $$\eta\lambda=2$$, it is $$-1$$: loss is unchanged and consecutive updates reverse exactly. At $$\eta\lambda=1$$, the next update is zero, so its cosine is undefined; on either side, the temporal direction sign changes.
+
+This coincidence at $$2/\eta$$ belongs to the scalar quadratic mode. It does not say that whole-network consecutive updates must have cosine $$-1$$ whenever maximum Hessian curvature approaches that scale.
+
+### The optimizer transformation adds another geometry
 
 Write a deterministic or fixed-batch optimizer step as $$F(W)=W-\eta T(\nabla L(W))$$. Where the derivatives exist,
 
@@ -116,7 +150,7 @@ $$
 $$
 
 <div class="takeaway" markdown="1">
-Below the boundary, the expected loss increment is negative; on it, zero; above it, positive. Full-batch exact-polar Muon has $$\rho_{\mathrm{full}}=1$$, recovering the scale $$2/\eta$$.
+**Read the bracket.** Below the boundary, the expected loss increment is negative; on it, zero; above it, positive. Full-batch exact-polar Muon has $$\rho_{\mathrm{full}}=1$$, recovering the scale $$2/\eta$$.
 </div>
 
 This effective Muon curvature is not GD's maximum Hessian eigenvalue. Under additional second-order smoothness, its small-step limit is a normalized directional curvature.
@@ -145,7 +179,7 @@ The paper makes the separation concrete with a matrix quadratic. At the same lea
 
 Both states lie below $$2/\eta$$. Their loss response agrees, but their temporal directions differ: the curvature involves a spectral trace, while alignment involves an eigenvalue sign count. The construction and assumptions are in paper §2.3.
 
-<h2 id="experiments">4. From controlled networks to LLM pretraining</h2>
+<h2 id="experiments">4. Do the diagnostics separate along training?</h2>
 
 The theory predicts that the two boundaries can separate. We first test how batch size affects that separation, then ask whether a related pattern persists in language-model training.
 
@@ -173,31 +207,13 @@ The LLM runs use no-momentum NS-5 on Muon blocks and AdamW on auxiliary paramete
 
 </div>
 
-{% include figure.html src="/assets/images/muon/figure1-130m.png" alt="130M run: training and validation loss, conditional loss balance, and global update cosine." caption="**Figure 4 · The two diagnostics coexist at 130M.** Peak rate 0.02. Conditional effective curvature repeatedly approaches the corrected boundary, while global directions remain far from exact reversal. From the bottom row of paper Figure 1." %}
+Return to **Animation 02** at the top: its three original panels pair full training loss with conditional loss balance and global temporal cosine. Read the measurements together, while keeping their scopes separate.
 
-Across four peak-rate runs, full-horizon cosine medians range from approximately $$-0.048$$ to $$-0.032$$. The central empirical pattern is **sustained negative alignment close to orthogonality**, together with continued learning.
+
+
+Across four peak-rate runs, full-horizon cosine medians range from approximately $$-0.048$$ to $$-0.032$$. The central empirical pattern is **sustained negative alignment close to orthogonality**, together with continued learning. We call this temporal regime the **Edge of Cosine (EOC)**. The name describes consecutive-update alignment; it is not a perturbation-stability criterion.
 
 The loss measurements have different scopes. Boundary tracking comes from finite-reference, **Muon-only checkpoint probes**. Validation improvement comes from complete **Muon-plus-AdamW training**. A near-zero conditional probe increment does not mean that the full run has stopped learning.
-
-### A global average hides structure
-
-{% include diagnostic-grid.html %}
-
-The module medians locate stronger negative alignment; the temporal heatmap shows its evolution; the coherence curves show how probe sampling affects the loss-side signal. Middle-layer key/value matrices differ from many query matrices, and larger probe batches generally strengthen reference coherence. A global cosine near zero should therefore be read alongside the underlying layers and modules.
-
-### Is near orthogonality just minibatch randomness?
-
-A frozen-state test helps distinguish sampling dispersion from temporal feedback. At a fixed checkpoint, compare independent minibatch directions without advancing the model. Then compare this with consecutive directions along the training trajectory.
-
-{% include figure.html src="/assets/images/muon/figure11-frozen-vs-time.png" alt="Two Tiny Transformer seeds: frozen-state minibatch comparisons versus actual temporal cosines." caption="**Figure 6 · Hold the state fixed, then compare with training.** Orange: independent minibatch directions at a frozen state, with 95% delete-one-batch jackknife intervals. Blue: consecutive-step directions. Frozen-state averages are small and positive; stable-stage temporal averages are negative. From paper Figure 11, batch eight." %}
-
-This supports sampling dispersion as a source of weak alignment and changes in the model state as a source of negative bias. Both Muon and AdamW change that state, so this test cannot assign the feedback to either optimizer alone.
-
-### At 1B, loss still improves despite stronger cancellation
-
-{% include figure.html src="/assets/images/muon/figure8-1b.png" alt="1B training and validation loss, global cosine, and layer-level cosine trajectories." caption="**Figure 7 · A larger-scale directional pattern.** Loss improves while global alignment is more negative, and layers follow different trajectories. The run remains far from exact reversal. From paper Figure 8." %}
-
-The larger batch is consistent with the controlled trend, but the 130M-to-1B comparison changes several factors and does not isolate batch size. **No T1 probes were collected at 1B**; this run supplies directional evidence, not a test of conditional loss neutrality.
 
 <h2 id="interventions">5. Change the learning rate at the same checkpoint</h2>
 
@@ -223,9 +239,35 @@ The columns refer to different horizons. Intervals come from eight paired one-st
 
 Rate changes initially shift alignment, which then tends back toward its pre-change value. Some larger-rate branches also improve later validation loss. These observations motivate schedule research, but they do not establish a rule to raise the rate whenever cosine is near zero.
 
-<h2 id="outlook">6. What survives—and what this suggests</h2>
+<h2 id="scale">6. What do noise, layers and scale add?</h2>
 
-The loss-neutral edge survives, with stochastic coherence correcting its scale. The universal reversal signature does not: conditional loss balance and temporal alignment can move independently. This is the sense in which no-momentum Muon *sublates* the classical edge of stability.
+A global measurement can conceal structure. These additional experiments clarify the observed directional regime, without turning it into a local-stability test.
+
+### A global average hides structure
+
+{% include diagnostic-grid.html %}
+
+The module medians locate stronger negative alignment; the temporal heatmap shows its evolution; the coherence curves show how probe sampling affects the loss-side signal. Middle-layer key/value matrices differ from many query matrices, and larger probe batches generally strengthen reference coherence. A global cosine near zero should therefore be read alongside the underlying layers and modules.
+
+### Is near orthogonality just minibatch randomness?
+
+A frozen-state test helps distinguish sampling dispersion from temporal feedback. At a fixed checkpoint, compare independent minibatch directions without advancing the model. Then compare this with consecutive directions along the training trajectory.
+
+{% include figure.html src="/assets/images/muon/figure11-frozen-vs-time.png" alt="Two Tiny Transformer seeds: frozen-state minibatch comparisons versus actual temporal cosines." caption="**Figure 6 · Hold the state fixed, then compare with training.** Orange: independent minibatch directions at a frozen state, with 95% delete-one-batch jackknife intervals. Blue: consecutive-step directions. Frozen-state averages are small and positive; later-stage temporal averages are negative. From paper Figure 11, batch eight." %}
+
+This supports sampling dispersion as a source of weak alignment and changes in the model state as a source of negative bias. Both Muon and AdamW change that state, so this test cannot assign the feedback to either optimizer alone.
+
+### At 1B, loss still improves despite stronger cancellation
+
+{% include figure.html src="/assets/images/muon/figure8-1b.png" alt="1B training and validation loss, global cosine, and layer-level cosine trajectories." caption="**Figure 7 · A larger-scale directional pattern.** Loss improves while global alignment is more negative, and layers follow different trajectories. The run remains far from exact reversal. From paper Figure 8." %}
+
+The larger batch is consistent with the controlled trend, but the 130M-to-1B comparison changes several factors and does not isolate batch size. **No T1 probes were collected at 1B**; this run supplies directional evidence, not a test of conditional loss neutrality.
+
+<h2 id="outlook">What survives—and what this suggests</h2>
+
+An exact conditional loss-balance boundary is available for polar Muon, with stochastic coherence correcting its scale. Our experiments show tracking of that loss-side boundary alongside a different temporal regime: weak negative alignment rather than complete reversal. This separation is the sense in which no-momentum Muon *sublates* the classical picture.
+
+These results concern an identity, measured boundary tracking and temporal directions. **They do not establish a general perturbation-stability boundary for stochastic NS-5 Muon-plus-AdamW training.** That question requires a separate analysis of the optimizer dynamics.
 
 For schedule design, the two diagnostics supply complementary information:
 
@@ -240,6 +282,13 @@ Their joint response may inform WSD learning-rate choices and a data-driven crit
 
 <div class="article-sources" markdown="1">
 
+### Paper, code and sources
+
+Yanzhe Chen, Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu. [*Muon Sublates the Edge of Stability in LLM Pretraining*](https://arxiv.org/abs/2609.34915), arXiv v1. [Source code](https://github.com/cyzebra/Muon-Sublates-the-Edge-of-Stability-in-LLM-Pretraining).
+
+Background: [Wu, Ma and E (2018), *How SGD Selects the Global Minima in Over-parameterized Learning: A Dynamical Stability Perspective*](https://proceedings.neurips.cc/paper/2018/file/6651526b6fb8f29a00507de6a49ce30f-Paper.pdf); [Cohen et al. (2021), *Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability*](https://arxiv.org/abs/2103.00065); [Jordan et al. on Muon](https://kellerjordan.github.io/posts/muon/).
+
+Animation 01 is an exact scalar toy calculation. Animation 02 reveals unchanged measured panels from paper Figure 1; it does not animate raw training logs. Figures 2–7 reproduce or regroup the paper's results; Figure 1 is credited separately. The learning-rate table follows paper Table 2 and Appendix C.3. Full assumptions and protocols are in the paper.
 
 [Back to top](#top) · [Back to home]({{ '/' | relative_url }})
 

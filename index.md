@@ -23,8 +23,8 @@ We study how conditional loss balance and consecutive-update alignment separate 
 
 ## Blog
 
-### Does Muon Operate at the Edge of Stability in LLM Pretraining?
+### What Does the Edge of Stability Mean for Muon?
 
-A visual research guide: what survives of classical EoS under no-momentum Muon, why loss balance separates from reversal, and what this suggests for learning-rate and batch-size schedules.
+An animated research guide that separates local stability from training at an edge, then follows loss balance and temporal alignment under no-momentum Muon.
 
 [Read the blog]({{ '/blog/muon-eos-en/' | relative_url }})
