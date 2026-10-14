@@ -14,7 +14,7 @@ animations: true
 
 # How Muon Reshapes the Edge of Stability
 
-<p class="byline">Yanzhe Chen </p>
+<p class="byline">Yanzhe Chen · With Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu</p>
 <p class="standfirst">A loss‑neutral edge survives. Its classical coupling to update reversal does not.</p>
 <div class="article-links"><a href="https://arxiv.org/abs/2609.34915">Paper ↗</a><a href="https://github.com/cyzebra/Muon-Sublates-the-Edge-of-Stability-in-LLM-Pretraining">Code ↗</a></div>
 </div>
@@ -25,11 +25,15 @@ animations: true
 
 The three panels show the puzzle: **loss-boundary tracking, weak negative direction alignment, and continued learning coexist.** Our paper explains the split through two diagnostics: **T1**, the conditional loss‑neutral boundary, and **T2**, the temporal-orthogonality boundary. The contribution is a characterization of what remains coupled—and what no longer does—when updates become matrix‑aware.
 
-<nav class="article-toc" aria-label="Article contents"><span>Contents</span><a href="#stability">1. The classical picture</a><a href="#muon">2. What Muon changes</a><a href="#diagnostics">3. Why the edge splits</a><a href="#experiments">4. Training evidence</a><a href="#interventions">5. Rate interventions</a><a href="#scale">6. Noise, layers and scale</a><a href="#outlook">7. What survives</a></nav>
+<nav class="article-toc" aria-label="Article contents"><span>Contents</span><a href="#stability">1. What is EoS?</a><a href="#muon">2. What Muon changes</a><a href="#diagnostics">3. Why the edge splits</a><a href="#experiments">4. Training evidence</a><a href="#interventions">5. Rate interventions</a><a href="#scale">6. Noise, layers and scale</a><a href="#outlook">7. What survives</a></nav>
 
-<h2 id="stability">1. A stability boundary, and training near it</h2>
+<h2 id="stability">1. What is the Edge of Stability?</h2>
 
-Two related questions need separate answers. **Local stability** asks whether a small perturbation around a fixed point grows. **Training near an edge** asks whether an evolving trajectory approaches a boundary and stays near it while continuing to learn. A threshold calculation alone does not establish that training behavior.
+The **Edge of Stability (EoS)** describes a striking training regime: curvature stays near a learning-rate-dependent stability boundary, while short-term loss fluctuations coexist with progress over longer horizons. In full-batch neural-network gradient descent, the largest Hessian eigenvalue often hovers just above $$2/\eta$$. Training can keep improving even though individual steps do not decrease loss monotonically, as documented by [Cohen et al. (2021)](https://arxiv.org/abs/2103.00065).
+
+{% include figure.html src="/assets/images/muon/classical-eos-litman2026.png" alt="Classical GD: maximum curvature approaches the learning-rate scale while loss oscillates and improves." caption="**Figure 2 · The classical EoS training pattern.** Full-batch GD, three-layer MLP, CIFAR-10, learning rate 0.5. Curvature approaches the learning-rate scale while loss fluctuates and improves. Reproduced unchanged from [Litman (2026), Figure 1](https://arxiv.org/html/2604.20446v1#S1.F1), under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)." %}
+
+### Where does the scale 2/η come from?
 
 For one scalar quadratic mode, $$L(x)=\lambda x^2/2$$, GD gives
 
@@ -37,17 +41,19 @@ $$
 x_{k+1}=(1-\eta\lambda)x_k.
 $$
 
-At $$\eta\lambda=2$$, the multiplier is $$-1$$: the loss stays constant, updates reverse with equal magnitude, and the mode is marginally stable. Direction changes begin earlier, above $$\eta\lambda=1$$. The next gradient vanishes exactly at that point, so its cosine is undefined there.
+The multiplier $$1-\eta\lambda$$ determines whether this mode contracts or grows. For $$0<\eta\lambda<2$$, its magnitude shrinks; above $$2$$, it grows. At $$\eta\lambda=2$$, the multiplier is $$-1$$: the loss stays constant, consecutive updates reverse with equal magnitude, and the mode is marginally stable. This simple calculation explains the classical boundary scale.
 
 {% include edge-animation.html %}
 
-[Wu, Ma and E (2018)](https://proceedings.neurips.cc/paper/2018/file/6651526b6fb8f29a00507de6a49ce30f-Paper.pdf) study which minima can be selected through linearized stochastic stability. Their stability criterion bounds perturbation second moments; both average sampled curvature and its variation matter. They also observe selected GD minima whose sharpness approaches the allowed upper bound in some settings.
+Direction changes begin earlier, above $$\eta\lambda=1$$. The next gradient vanishes exactly at that point, so its cosine is undefined there. Thus negative alignment alone does not identify the loss-neutral or marginal-stability boundary.
 
-[Cohen et al. (2021)](https://arxiv.org/abs/2103.00065) document the trajectory-level EoS phenomenon: full-batch neural-network GD sharpens toward $$2/\eta$$, with short-horizon non-monotone loss and longer-horizon progress.
+### A boundary calculation and a training observation
 
-{% include figure.html src="/assets/images/muon/classical-eos-litman2026.png" alt="Classical GD: maximum curvature approaches the learning-rate scale while loss oscillates and improves." caption="**Figure 2 · The classical training pattern.** Full-batch GD, three-layer MLP, CIFAR-10, learning rate 0.5. Reproduced unchanged from [Litman (2026), Figure 1](https://arxiv.org/html/2604.20446v1#S1.F1), under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)." %}
+The quadratic calculation identifies a **local stability boundary**: it tells us when perturbations contract or grow. The EoS training phenomenon asks a further question: **does the evolving trajectory actually approach and remain near such a boundary while learning?** A fixed quadratic illustrates the boundary, but cannot demonstrate the changing curvature of neural-network training.
 
-For Muon, we connect **a theoretical loss boundary and direction geometry** to **measured behavior along training**. The scalar coincidence above is a reference mechanism, not a claim that a full-network update must reverse whenever maximum Hessian curvature approaches $$2/\eta$$.
+[Wu, Ma and E (2018)](https://proceedings.neurips.cc/paper/2018/file/6651526b6fb8f29a00507de6a49ce30f-Paper.pdf) study which minima can be selected through linearized stochastic stability. Their criterion bounds perturbation second moments and depends on both average sampled curvature and its variation. They also observe selected GD minima near the permitted sharpness bound in some settings. Cohen et al. study the related behavior along neural-network training trajectories. The distinction is between characterizing a boundary and establishing how training evolves relative to it.
+
+Our Muon question brings these ideas together: **which parts of the classical EoS picture survive when update geometry changes?** We characterize the conditional loss-neutral boundary and its relationship to temporal alignment, then examine boundary tracking and direction behavior along training. The scalar GD coincidence above provides the reference mechanism; it does not require full-network updates to reverse whenever maximum Hessian curvature approaches $$2/\eta$$.
 
 <h2 id="muon">2. Muon changes relative update strengths</h2>
 
