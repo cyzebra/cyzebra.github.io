@@ -1,48 +1,48 @@
-# Muon research blog — animated edition
+# Muon blog — split edge edition
 
-**What Does the Edge of Stability Mean for Muon?**
+A complete GitHub Pages / Jekyll source package for **How Muon Reshapes the Edge of Stability**.
 
-This package contains a GitHub Pages/Jekyll homepage and English article, two opening animations, seven numbered figures, five tables, and an offline preview outside the site folder.
+The article keeps its URL: `/blog/muon-eos-en/`. It contains 11 numbered figures, three tables, five expandable mathematical derivations, one scalar-GD animation and one singular-geometry animation. Experimental plots and numbers were preserved.
 
-The article separates fixed-point perturbation stability, empirical training near an edge, conditional one-step loss balance (T1), and consecutive-update alignment (T2). Wu–Ma–E (2018) supplies the fixed-point stability background; Cohen et al. (2021) supplies the empirical neural-network EoS background. All technical material stays in the main text.
-
-## Files to edit
+## Edit map
 
 | Content | File |
 | --- | --- |
-| Homepage text and blog entry | `index.md` |
-| Article, headings, formulas, tables and ordinary figure captions | `blog/muon-eos-en.md` |
-| Layout, colours, spacing, mobile and print styles | `assets/style.css` |
-| Animation playback, exact toy dynamics and reveal controls | `assets/animations.js` |
-| Scalar stability animation and its labels | `_includes/edge-animation.html` |
-| Guided 130M figure reveal and its captions | `_includes/reading-animation.html` |
-| Standard figure component | `_includes/figure.html` |
-| Grouped diagnostic figure | `_includes/diagnostic-grid.html` |
-| Grouped learning-rate figure | `_includes/intervention-grid.html` |
-| MathJax and animation script loading | `_includes/head-custom.html` |
-| Navigation and footer | `_layouts/default.html` |
-| Site URL, repository base path and title | `_config.yml` |
-| Measured figure images and original source figures | `assets/images/muon/` |
+| Homepage | `index.md` |
+| Article, formulas, tables, derivations | `blog/muon-eos-en.md` |
+| Layout, mobile styling, disclosures | `assets/style.css` |
+| Both animations and image viewer | `assets/animations.js` |
+| Muon geometry illustration | `_includes/mechanism-geometry.html` |
+| Direction / parameter-position diagram | `_includes/mechanism-directions.html` |
+| Exact matrix counterexample | `_includes/mechanism-matrix.html` |
+| Editable direction and spectrum SVGs | `assets/images/muon/directions-*.svg`, `spectrum-state-*.svg` |
+| Scalar-GD animation | `_includes/edge-animation.html` |
+| Grouped experimental plots | `_includes/hero-results.html`, `intervention-grid.html`, `diagnostic-grid.html` |
+| Generic plot component | `_includes/figure.html` |
+| Math and script loading | `_includes/head-custom.html` |
+| Header / footer | `_layouts/default.html` |
+| Site URL and base path | `_config.yml` |
 
-## Math and figures
+## Math and expandable derivations
 
-Kramdown inline math uses same-line `$$...$$`. Display equations put the opening and closing `$$` on separate lines, with blank lines around the equation. The shared head translates Kramdown's generated math scripts for MathJax 3.
+Keep `math: true` and `animations: true`. Kramdown inline formulas use same-line `$$...$$`; display formulas put `$$` on separate lines with blank lines around them.
 
-Use `{% include figure.html src="/assets/images/muon/FILE.png" alt="Description" caption="**Figure N · Title.** Explanation." %}` for a single figure. Grouped figures and animations are in the named includes above. Internal paths use `relative_url` so they work with a configured repository `baseurl`.
+Derivations use native `<details class="technical" markdown="1">` with a descriptive `<summary>`. Leave blank lines around Markdown paragraphs and display equations inside the disclosure. Key definitions, boundaries and conclusions remain in the main text. The five derivations expand automatically for printing and restore their prior state afterward.
 
-Keep `permalink: /blog/muon-eos-en/`, `math: true`, and `animations: true` in the article front matter.
+## Illustrations
 
-## What the animations do
+The new Figure 3 compares a gradient with singular values 4 and 1, global Frobenius normalization, and the exact polar target. All panels use the same geometric scale. The slider interpolates singular values; it does not simulate Newton–Schulz iterations. No autoplay is used.
 
-1. Exact scalar GD on `L(x)=x²/2`, with `x₀=1`, fixed curvature, and ηλ in {0.8, 1.8, 2, 2.2}. Six updates show contraction, oscillatory contraction, marginal reversal and divergence. Curvature is fixed: this is not a demonstration of neural-network self-organization at an edge.
-2. A reading guide that reveals three unchanged panels of paper Figure 1. It animates reading order, not training iterations. No experimental values were simulated, interpolated or digitized.
+New Figure 4 (formerly Figure 5) matches every common-origin direction pair to its own parameter-position path. Equal-length schematic displacements illustrate reinforcement, orthogonality, partial cancellation and reversal. The reversed arrows are offset only for visibility.
 
-Both provide play, pause, replay and scrubbing. They pause when the page becomes hidden or the component leaves view. They do not autoplay. Reduced-motion preferences prevent replay from starting automatically. With JavaScript disabled, labels and the measured panels remain visible; controls remain hidden.
+New Figure 5 (formerly Figure 6) uses the paper's two actual stretch spectra, 0.8/0.8/0.8 and 0.1/1.1/1.2 times eta. Identical traces give identical effective curvature, while different sign counts give cosines −1 and 1/3. It is a one-step construction, not an empirical training trajectory.
 
-## Upload
+The old Figure 4, T1 balance bars, has been removed. EOC / Edge of Cosine is not introduced.
 
-Upload the **contents** of `github-pages/` to the repository root. Merge `index.md` with your personalized homepage instead of replacing its personal content blindly. GitHub Pages should build from `main` and `/(root)`; do not add `.nojekyll`.
+## Preview and upload
 
-The offline `Muon_Blog_Preview.html` embeds images, formula SVGs and animation code; open it locally to read and interact. It need not be uploaded. Published formulas use MathJax and can differ slightly in font from the preview.
+Open the outer `Muon_Blog_Preview.html` for an offline preview. Images, interaction scripts, styles and native MathML formulas are embedded. Use a current Chrome, Edge, Firefox or Safari browser. The live Jekyll page uses MathJax, so equation fonts can differ slightly.
 
-The Chinese article is absent. Delete an old `blog/muon-eos-zh.md` separately if it remains in the remote repository. Uploading the package does not delete remote files.
+Upload the **contents** of `github-pages/` to the repository root. Keep your personalized homepage and merge the article link as needed. Do not upload the outer preview or ZIP. GitHub Pages should build from `main` and `/(root)`; do not add `.nojekyll`.
+
+Files absent from this ZIP are not automatically deleted when using GitHub's upload interface. The old `_includes/mechanism-balance.html`, `assets/images/muon/balance-*.svg`, old `geometry-*.svg`, `direction-*.svg`, and `matrix-state-*.svg` are no longer referenced and may be removed from the remote repository. New direction SVG filenames start with `directions-` (plural). Delete any obsolete Chinese article separately.

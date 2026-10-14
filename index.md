@@ -23,8 +23,8 @@ We study how conditional loss balance and consecutive-update alignment separate 
 
 ## Blog
 
-### What Does the Edge of Stability Mean for Muon?
+### How Muon Reshapes the Edge of Stability
 
-An animated research guide that separates local stability from training at an edge, then follows loss balance and temporal alignment under no-momentum Muon.
+A visual guide to how Muon retains a loss-side edge while uncoupling it from temporal reversal, through update geometry, two thresholds, and training evidence.
 
 [Read the blog]({{ '/blog/muon-eos-en/' | relative_url }})

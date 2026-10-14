@@ -51,28 +51,6 @@
       stepText.textContent = step + ' / 6';
     }, 'Play');
   });
-  document.querySelectorAll('[data-reading-demo]').forEach(root => {
-    const panels = Array.from(root.querySelectorAll('.reading-panel'));
-    const message = root.querySelector('[data-guide-message]');
-    const messages = [
-      'First: improving validation loss describes the complete training trajectory.',
-      'Next: the loss-balance panel comes from conditional Muon-only probes.',
-      'Then: temporal cosine measures consecutive directions, not perturbation growth.',
-      'Together: loss-boundary tracking and weak negative alignment are different observations.'
-    ];
-    root.classList.add('is-interactive');
-    let lastStage = -1;
-    player(root, 100, 15000, value => {
-      const stage = value >= 100 ? 3 : Math.min(2, Math.floor(value / (100 / 3)));
-      panels.forEach((panel, index) => {
-        const local = Math.max(0, Math.min(1, value * 3 / 100 - index));
-        panel.style.setProperty('--reveal', (local * 100).toFixed(2) + '%');
-        panel.classList.toggle('is-active', stage === index || stage === 3);
-        panel.classList.toggle('is-read', local >= 1);
-      });
-      if (stage !== lastStage) { message.textContent = messages[stage]; lastStage = stage; }
-    }, 'Play guide');
-  });
   // Preserve ordinary image URLs while providing an accessible in-page viewer.
   if (typeof HTMLDialogElement !== 'undefined') {
     document.addEventListener('click', event => {
@@ -92,4 +70,39 @@
     });
   }
   document.addEventListener('visibilitychange', () => { if (document.hidden) controllers.forEach(c => c.stop()); });
+})();
+(function () {
+  'use strict';
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('[data-geometry-demo]').forEach(root => {
+    const controls=root.querySelector('.geometry-controls'), slider=root.querySelector('[data-g-progress]');
+    const play=root.querySelector('[data-g-play]'), reset=root.querySelector('[data-g-reset]');
+    const panel=root.querySelector('[data-geometry-panel="2"]');
+    let value=100, running=false, frame=0, last=0;
+    function render(){
+      const strength=Math.pow(4,1-value/100), r=strength*23;
+      panel.querySelector('.mapped-circle').setAttribute('rx',r.toFixed(3));
+      panel.querySelector('.singular-one').setAttribute('d','M0,0 L'+r.toFixed(3)+',0');
+      panel.querySelector('.bar-one').style.width=(strength/4*100)+'%';
+      panel.querySelector('.value-one').textContent=strength.toFixed(2);
+      panel.querySelector('p').textContent=value>=99.99?'Active strengths become 1 : 1':'Illustrated transform: '+strength.toFixed(2)+' : 1';
+      slider.value=Math.round(value); root.querySelector('[data-g-label]').textContent=Math.round(value)+'%';
+    }
+    function stop(){running=false;cancelAnimationFrame(frame);play.textContent='Play transform';play.setAttribute('aria-pressed','false');}
+    function tick(now){if(!running)return;if(last)value=Math.min(100,value+(now-last)/45);last=now;render();if(value>=100)stop();else frame=requestAnimationFrame(tick);}
+    function start(){if(value>=100)value=0;running=true;last=0;play.textContent='Pause';play.setAttribute('aria-pressed','true');render();frame=requestAnimationFrame(tick);}
+    play.addEventListener('click',()=>running?stop():start());
+    reset.addEventListener('click',()=>{stop();value=0;render();});
+    slider.addEventListener('input',()=>{stop();value=Number(slider.value);render();});
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+    if('IntersectionObserver' in window)new IntersectionObserver(es=>{if(!es[0].isIntersecting)stop();}).observe(root);
+    controls.hidden=false; render();
+    if(reduced)root.setAttribute('data-reduced-motion','true');
+  });
+  window.addEventListener('beforeprint',()=>{
+    document.querySelectorAll('details.technical').forEach(d=>{d.dataset.wasOpen=d.open?'1':'0';d.open=true;});
+  });
+  window.addEventListener('afterprint',()=>{
+    document.querySelectorAll('details.technical').forEach(d=>{d.open=d.dataset.wasOpen==='1';delete d.dataset.wasOpen;});
+  });
 })();

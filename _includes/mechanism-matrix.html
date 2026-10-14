@@ -1,0 +1,8 @@
+<figure class="research-figure mechanism-figure" id="fig-matrix">
+<div class="matrix-common"><span>Same learning rate · Full coherence · X = I₃</span><strong>Same loss curvature. Different direction signs.</strong></div>
+<div class="figure-grid figure-grid-two">
+<a class="figure-link" href="{{ '/assets/images/muon/spectrum-state-a.svg' | relative_url }}"><img src="{{ '/assets/images/muon/spectrum-state-a.svg' | relative_url }}" alt="State A has three eigenvalues 0.8 eta, all below eta; all three directions flip, giving cosine minus one." loading="lazy"></a>
+<a class="figure-link" href="{{ '/assets/images/muon/spectrum-state-b.svg' | relative_url }}"><img src="{{ '/assets/images/muon/spectrum-state-b.svg' | relative_url }}" alt="State B has eigenvalues 0.1, 1.1 and 1.2 times eta; only one direction flips, giving cosine one third." loading="lazy"></a></div>
+<div class="matrix-result" markdown="1">
+Both states: $$s_k^M=\frac{3}{2.4\eta}=\frac{5}{4\eta}<\frac{2}{\eta}$$. Both steps decrease loss; their next polar directions have opposite alignment signs.
+</div><figcaption><p><strong>Figure 5 · A trace cannot tell you how many directions flip.</strong> The exact matrix-quadratic construction in paper §2.3. Bars share a scale; the dashed line is the threshold η. The signs of Sₖ − ηI determine the next polar factor. This is a one-step counterexample, not a long-time attraction result.</p></figcaption></figure>
