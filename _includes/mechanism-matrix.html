@@ -1,8 +1,11 @@
-<figure class="research-figure mechanism-figure" id="fig-matrix">
-<div class="matrix-common"><span>Same learning rate · Full coherence · X = I₃</span><strong>Same loss curvature. Different direction signs.</strong></div>
+<figure class="research-figure mechanism-figure matrix-geometry" id="fig-matrix">
+<div class="matrix-title"><h3>The same step can cross three minima—or only one.</h3><p>Muon moves every active mode by η. The next direction depends on which side of zero it lands.</p></div>
 <div class="figure-grid figure-grid-two">
-<a class="figure-link" href="{{ '/assets/images/muon/spectrum-state-a.svg' | relative_url }}"><img src="{{ '/assets/images/muon/spectrum-state-a.svg' | relative_url }}" alt="State A has three eigenvalues 0.8 eta, all below eta; all three directions flip, giving cosine minus one." loading="lazy"></a>
-<a class="figure-link" href="{{ '/assets/images/muon/spectrum-state-b.svg' | relative_url }}"><img src="{{ '/assets/images/muon/spectrum-state-b.svg' | relative_url }}" alt="State B has eigenvalues 0.1, 1.1 and 1.2 times eta; only one direction flips, giving cosine one third." loading="lazy"></a></div>
+<a class="figure-link" href="{{ '/assets/images/muon/matrix-modes-a.svg' | relative_url }}"><img src="{{ '/assets/images/muon/matrix-modes-a.svg' | relative_url }}" alt="State A: each of three quadratic modes moves from 0.8 eta to minus 0.2 eta, crossing its minimum. All next displacements reverse." loading="lazy"></a>
+<a class="figure-link" href="{{ '/assets/images/muon/matrix-modes-b.svg' | relative_url }}"><img src="{{ '/assets/images/muon/matrix-modes-b.svg' | relative_url }}" alt="State B: the first quadratic mode moves from 0.1 eta to minus 0.9 eta and reverses; the other two move from 1.1 and 1.2 eta to 0.1 and 0.2 eta and continue in the same direction." loading="lazy"></a>
+</div>
 <div class="matrix-result" markdown="1">
-Both states: $$s_k^M=\frac{3}{2.4\eta}=\frac{5}{4\eta}<\frac{2}{\eta}$$. Both steps decrease loss; their next polar directions have opposite alignment signs.
-</div><figcaption><p><strong>Figure 5 · A trace cannot tell you how many directions flip.</strong> The exact matrix-quadratic construction in paper §2.3. Bars share a scale; the dashed line is the threshold η. The signs of Sₖ − ηI determine the next polar factor. This is a one-step counterexample, not a long-time attraction result.</p></figcaption></figure>
+Both states have $$\sum_i e_{i,k}=2.4\eta$$, so $$s_k^M=5/(4\eta)$$ and $$\Delta L=-0.9\eta^2$$. Their next directions differ because the **number of zero crossings** differs.
+</div>
+<figcaption><p><strong>Figure 5 · Loss balance adds strengths; direction alignment counts crossings.</strong> An exact diagonal slice of the paper's matrix example, X = I₃. Here eᵢ is a signed coordinate of W − W<sub>min</sub>; each curve shows its contribution ½eᵢ². Coordinates are plotted in units of η with identical scales. Blue arrows subtract one; coral arrows show the actual next step. Initial gradient strengths sum to the same value, but three coordinates cross zero in A and only one in B. These are modewise loss sections, not projections of a measured training trajectory.</p></figcaption>
+</figure>

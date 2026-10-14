@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "How Muon Reshapes the Edge of Stability"
-description: "A loss-neutral edge survives under no-momentum Muon, but its classical coupling to update reversal breaks."
+description: "A loss‑neutral edge survives under no-momentum Muon, but its classical coupling to update reversal breaks."
 permalink: /blog/muon-eos-en/
 lang: en
 math: true
@@ -15,7 +15,7 @@ animations: true
 # How Muon Reshapes the Edge of Stability
 
 <p class="byline">Yanzhe Chen · With Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu</p>
-<p class="standfirst">A loss-neutral edge survives. Its classical coupling to update reversal does not.</p>
+<p class="standfirst">A loss‑neutral edge survives. Its classical coupling to update reversal does not.</p>
 <div class="article-links"><a href="https://arxiv.org/abs/2609.34915">Paper ↗</a><a href="https://github.com/cyzebra/Muon-Sublates-the-Edge-of-Stability-in-LLM-Pretraining">Code ↗</a></div>
 </div>
 
@@ -23,7 +23,7 @@ animations: true
 
 {% include hero-results.html %}
 
-The three panels show the puzzle: **loss-boundary tracking, weak negative direction alignment, and continued learning coexist.** Our paper explains the split through two diagnostics: **T1**, the conditional loss-neutral boundary, and **T2**, the temporal-orthogonality boundary. The contribution is a characterization of what remains coupled—and what no longer does—when updates become matrix-aware.
+The three panels show the puzzle: **loss-boundary tracking, weak negative direction alignment, and continued learning coexist.** Our paper explains the split through two diagnostics: **T1**, the conditional loss‑neutral boundary, and **T2**, the temporal-orthogonality boundary. The contribution is a characterization of what remains coupled—and what no longer does—when updates become matrix‑aware.
 
 <nav class="article-toc" aria-label="Article contents"><span>Contents</span><a href="#stability">1. The classical picture</a><a href="#muon">2. What Muon changes</a><a href="#diagnostics">3. Why the edge splits</a><a href="#experiments">4. Training evidence</a><a href="#interventions">5. Rate interventions</a><a href="#scale">6. Noise, layers and scale</a><a href="#outlook">7. What survives</a></nav>
 
@@ -102,13 +102,13 @@ GD has $$T=\operatorname{Id}$$. A nonlinear matrix transform adds its own local 
 
 | Question | Scalar quadratic GD | No-momentum Muon |
 | :--- | :--- | :--- |
-| When is the step loss-neutral? | $$\lambda=2/\eta$$ | $$s_b^M=2\rho_b/\eta$$: T1 |
+| When is the step loss‑neutral? | $$\lambda=2/\eta$$ | $$s_b^M=2\rho_b/\eta$$: T1 |
 | When does alignment change sign? | Across $$\lambda=1/\eta$$; undefined at the zero update | Across $$c_k^{\mathrm{pol}}=0$$: T2 |
 | Does loss neutrality enforce equal reversal? | At $$2/\eta$$, in this scalar mode | No universal coupling |
 
 </div>
 
-### T1: the conditional loss-neutral boundary
+### T1: the conditional loss‑neutral boundary
 
 Hold $$W_k$$ fixed and resample minibatches of size $$b$$. With nonzero full gradient $$G_k=\nabla L(W_k)$$, define coherence
 
@@ -210,9 +210,13 @@ Thus $$c_k^{\mathrm{pol}}=0$$ iff $$\bar s_k^M=\vartheta_k/\eta$$, and negative 
 
 </details>
 
-### A counterexample you can read from the spectrum
+### A counterexample you can see in three quadratic modes
 
-The same effective loss curvature can accompany opposite temporal signs. In the paper's matrix quadratic, T1 depends on a **trace**, whereas alignment depends on **how many eigenvalues change sign**. Matching a trace does not fix a sign count.
+To see the geometry, take the paper's $$X=I_3$$ example and restrict $$W-W_{\min}$$ to a diagonal matrix with signed coordinates $$e_1,e_2,e_3$$. The loss becomes $$L=\tfrac12\sum_i e_i^2$$, so the three modes have identical quadratic bowls. Initially all coordinates are positive: exact polar Muon therefore takes the same step, $$\Delta_k=-\eta I_3$$, in both states.
+
+**Each mode moves left by η, regardless of its initial strength.** In A, every coordinate overshoots zero and the next step reverses all three directions. In B, just one coordinate overshoots; the other two keep moving left. This makes the difference in alignment visible.
+
+T1 depends on the **sum of the initial strengths**, or trace. Alignment depends on **how many modes cross zero**. Two initial points on the same plane $$e_1+e_2+e_3=2.4\eta$$ can therefore have the same effective curvature and different next directions.
 
 {% include mechanism-matrix.html %}
 
@@ -360,7 +364,7 @@ The larger batch is consistent with the controlled trend, but the 130M-to-1B com
 
 <h2 id="outlook">7. What survives—and why “sublates”?</h2>
 
-**Muon preserves a coherence-corrected loss-neutral edge and changes its relation to temporal reversal.** The loss identity defines T1. Polar geometry makes T2 depend on a different response. The matrix example proves separation; controlled training and LLM experiments show how it appears in practice.
+**Muon preserves a coherence-corrected loss‑neutral edge and changes its relation to temporal reversal.** The loss identity defines T1. Polar geometry makes T2 depend on a different response. The matrix example proves separation; controlled training and LLM experiments show how it appears in practice.
 
 At 130M scale, loss-boundary tracking coexists with weak negative alignment. The studied 1B configuration has stronger partial cancellation, still far from coherent reversal. Layerwise measurements reveal structure hidden by a global cosine. These findings give a split EoS picture: a surviving loss boundary has no universal temporal-direction signature.
 
@@ -385,7 +389,7 @@ Background: [Wu, Ma and E (2018)](https://proceedings.neurips.cc/paper/2018/file
 
 For additional geometric demos: [Neel Mishra, Muon Part 1](https://neelmishra.github.io/blog/dl/optimizers/muon.html) and [Newton–Schulz Part 2](https://neelmishra.github.io/blog/dl/optimizers/newton-schulz.html). Our new diagrams and geometric interpolation are independently implemented; no external demo assets are embedded. Reading structure takes inspiration from [Tri Dao's ReplaySSM blog](https://tridao.me/blog/2026/replayssm/).
 
-Figures 1 and 6–11 reproduce or regroup measured plots supplied in the original package; no experimental curves were recalculated. Figure 2 has its own attribution. Figures 3–5 are exact or explicitly labeled explanatory constructions. The scalar animation holds curvature fixed, and the geometry animation interpolates singular strengths; neither depicts measured neural-network training. The intervention table follows paper Table 2 and Appendix C.3. Detailed assumptions and protocols are in the paper.
+Figures 1 and 6–11 reproduce or regroup measured plots supplied in the original package; no experimental curves were recalculated. Figure 2 has its own attribution. Figures 3–5 are exact or explicitly labeled explanatory constructions; Figure 5 shows independent loss sections of a diagonal matrix slice. The scalar animation holds curvature fixed, and the geometry animation interpolates singular strengths; neither depicts measured neural-network training. The intervention table follows paper Table 2 and Appendix C.3. Detailed assumptions and protocols are in the paper.
 
 [Back to top](#top) · [Home]({{ '/' | relative_url }})
 

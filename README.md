@@ -15,7 +15,7 @@ The article keeps its URL: `/blog/muon-eos-en/`. It contains 11 numbered figures
 | Muon geometry illustration | `_includes/mechanism-geometry.html` |
 | Direction / parameter-position diagram | `_includes/mechanism-directions.html` |
 | Exact matrix counterexample | `_includes/mechanism-matrix.html` |
-| Editable direction and spectrum SVGs | `assets/images/muon/directions-*.svg`, `spectrum-state-*.svg` |
+| Editable direction and spectrum SVGs | `assets/images/muon/directions-*.svg`, `matrix-modes-*.svg` |
 | Scalar-GD animation | `_includes/edge-animation.html` |
 | Grouped experimental plots | `_includes/hero-results.html`, `intervention-grid.html`, `diagnostic-grid.html` |
 | Generic plot component | `_includes/figure.html` |
@@ -35,7 +35,7 @@ The new Figure 3 compares a gradient with singular values 4 and 1, global Froben
 
 New Figure 4 (formerly Figure 5) matches every common-origin direction pair to its own parameter-position path. Equal-length schematic displacements illustrate reinforcement, orthogonality, partial cancellation and reversal. The reversed arrows are offset only for visibility.
 
-New Figure 5 (formerly Figure 6) uses the paper's two actual stretch spectra, 0.8/0.8/0.8 and 0.1/1.1/1.2 times eta. Identical traces give identical effective curvature, while different sign counts give cosines −1 and 1/3. It is a one-step construction, not an empirical training trajectory.
+Figure 5 shows three independent quadratic modes in each state of the exact diagonal matrix construction. Signed residual coordinates start at 0.8/0.8/0.8 or 0.1/1.1/1.2 times eta. The same polar step subtracts eta in all three modes. All modes cross zero in A, but only one in B; actual next-step arrows explain cosines −1 and 1/3. The modewise parabolas are not projections of a full matrix-loss trajectory. Both states have the same effective curvature and the same one-step loss decrement, despite different initial losses.
 
 The old Figure 4, T1 balance bars, has been removed. EOC / Edge of Cosine is not introduced.
 
@@ -46,3 +46,5 @@ Open the outer `Muon_Blog_Preview.html` for an offline preview. Images, interact
 Upload the **contents** of `github-pages/` to the repository root. Keep your personalized homepage and merge the article link as needed. Do not upload the outer preview or ZIP. GitHub Pages should build from `main` and `/(root)`; do not add `.nojekyll`.
 
 Files absent from this ZIP are not automatically deleted when using GitHub's upload interface. The old `_includes/mechanism-balance.html`, `assets/images/muon/balance-*.svg`, old `geometry-*.svg`, `direction-*.svg`, and `matrix-state-*.svg` are no longer referenced and may be removed from the remote repository. New direction SVG filenames start with `directions-` (plural). Delete any obsolete Chinese article separately.
+
+Paragraphs and headings now share a centered reading column; paragraph vertical spacing preserves horizontal auto margins.
