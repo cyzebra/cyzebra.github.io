@@ -23,7 +23,13 @@ animations: true
 
 {% include hero-results.html %}
 
-The three panels show the puzzle: **loss-boundary tracking, weak negative direction alignment, and continued learning coexist.** Our paper explains the split through two diagnostics: **T1**, the conditional loss‑neutral boundary, and **T2**, the temporal-orthogonality boundary. The contribution is a characterization of what remains coupled—and what no longer does—when updates become matrix‑aware.
+<div class="takeaway" markdown="1">
+
+The three panels show the puzzle: **loss-boundary tracking, weak negative direction alignment, and continued learning coexist.**
+
+</div>
+
+ Our paper explains the split through two diagnostics: **T1**, the conditional loss‑neutral boundary, and **T2**, the temporal-orthogonality boundary. The contribution is a characterization of what remains coupled—and what no longer does—when updates become matrix‑aware.
 
 <nav class="article-toc" aria-label="Article contents"><span>Contents</span><a href="#stability">1. What is EoS?</a><a href="#muon">2. What Muon changes</a><a href="#diagnostics">3. Why the edge splits</a><a href="#experiments">4. Training evidence</a><a href="#interventions">5. Rate interventions</a><a href="#scale">6. Noise, layers and scale</a><a href="#outlook">7. What survives</a></nav>
 
@@ -289,13 +295,13 @@ The matrix example proves that loss curvature need not determine temporal alignm
 
 ### Controlled networks: batch size matters, and the order can swap
 
-{% include figure.html src="/assets/images/muon/figure1-controlled.png" alt="Controlled Transformer: loss, loss balance and update cosine at several batch sizes." caption="**Figure 6 · Follow one batch across all three panels.** Exact SVD-polar Transformer at fixed learning rate 0.007. The right panel shows increasingly negative alignment at larger batches. From the top row of paper Figure 1." %}
+{% include controlled-grid.html %}
 
 Small batches remain closer to orthogonality; larger batches produce more negative alignment in these runs. The displayed full-batch global measurements approach coherent reversal without reaching $$-1$$.
 
-{% include figure.html src="/assets/images/muon/figure3-event-order.png" alt="First recorded loss-rise, T1 and T2 events in MLP, CNN and Transformer experiments." caption="**Figure 7 · T1 and T2 have no universal order.** Compare the red T1 and blue T2 bars within each batch configuration. At batch 512, T2 comes first in MLP and CNN; at batch 4096, T1 comes first. From paper Figure 3; event detection uses the paper's recorded tolerances." %}
+{% include event-grid.html %}
 
-At batch 512, T2 precedes T1 in the MLP and CNN; at batch 4096, T1 precedes T2. This illustrates their different responses along training. Unequal event times alone are not the proof of separation: even a scalar GD mode changes direction before loss balance. The matrix counterexample above supplies that proof.
+In the displayed event panels, T2 precedes T1 at batch 64 in the MLP and CNN; at batch 4096, T1 precedes T2. This illustrates their different responses along training. Unequal event times alone are not the proof of separation: even a scalar GD mode changes direction before loss balance. The matrix counterexample above supplies that proof.
 
 ### LLMs: a loss boundary with weak negative alignment
 
@@ -351,19 +357,19 @@ The two-threshold picture also suggests where to look beyond a global average: s
 
 {% include diagnostic-grid.html %}
 
-The module medians locate stronger negative alignment; the temporal heatmap shows its evolution; the coherence curves show how probe sampling affects the loss-side signal. Middle-layer key/value matrices differ from many query matrices, and larger probe batches generally strengthen reference coherence. A global cosine near zero should therefore be read alongside the underlying layers and modules.
+The module medians locate stronger negative alignment; the temporal heatmap shows its evolution; the coherence curves below show how probe sampling affects the loss-side signal. Middle-layer key/value matrices differ from many query matrices, and larger probe batches generally strengthen reference coherence. A global cosine near zero should therefore be read alongside the underlying layers and modules.
 
 ### Is near orthogonality just minibatch randomness?
 
 A frozen-state test helps distinguish sampling dispersion from temporal feedback. At a fixed checkpoint, compare independent minibatch directions without advancing the model. Then compare this with consecutive directions along the training trajectory.
 
-{% include figure.html src="/assets/images/muon/figure11-frozen-vs-time.png" alt="Two Tiny Transformer seeds: frozen-state minibatch comparisons versus actual temporal cosines." caption="**Figure 10 · Hold the state fixed, then compare with training.** Orange: independent minibatch directions at a frozen state, with 95% delete-one-batch jackknife intervals. Blue: consecutive-step directions. Frozen-state averages are small and positive; later-stage temporal averages are negative. From paper Figure 11, batch eight." %}
+{% include frozen-grid.html %}
 
 This supports sampling dispersion as a source of weak alignment and changes in the model state as a source of negative bias. Both Muon and AdamW change that state, so this test cannot assign the feedback to either optimizer alone.
 
 ### At 1B, loss still improves despite stronger cancellation
 
-{% include figure.html src="/assets/images/muon/figure8-1b.png" alt="1B training and validation loss, global cosine, and layer-level cosine trajectories." caption="**Figure 11 · A larger-scale directional pattern.** Loss improves while global alignment is more negative, and layers follow different trajectories. The run remains far from exact reversal. From paper Figure 8." %}
+{% include scale-grid.html %}
 
 The larger batch is consistent with the controlled trend, but the 130M-to-1B comparison changes several factors and does not isolate batch size. **No T1 probes were collected at 1B**; this run supplies directional evidence, not a test of conditional loss neutrality.
 
@@ -395,7 +401,7 @@ Background: [Wu, Ma and E (2018)](https://proceedings.neurips.cc/paper/2018/file
 
 For additional geometric demos: [Neel Mishra, Muon Part 1](https://neelmishra.github.io/blog/dl/optimizers/muon.html) and [Newton–Schulz Part 2](https://neelmishra.github.io/blog/dl/optimizers/newton-schulz.html). Our new diagrams and geometric interpolation are independently implemented; no external demo assets are embedded. Reading structure takes inspiration from [Tri Dao's ReplaySSM blog](https://tridao.me/blog/2026/replayssm/).
 
-Figures 1 and 6–11 reproduce or regroup measured plots supplied in the original package; no experimental curves were recalculated. Figure 2 has its own attribution. Figures 3–5 are exact or explicitly labeled explanatory constructions; Figure 5 shows independent loss sections of a diagonal matrix slice. The scalar animation holds curvature fixed, and the geometry animation interpolates singular strengths; neither depicts measured neural-network training. The intervention table follows paper Table 2 and Appendix C.3. Detailed assumptions and protocols are in the paper.
+Figures 1 and 6–11 use the supplied measurements and vector PDF plots. Plots with supplied CSV/JSONL files are redrawn from those records; other line plots retain the original plotted vertices, calibrated against the PDF tick marks. The heatmaps and frozen-state intervals are preserved from the source PDFs. No experimental values or uncertainty bands are invented. Figure 2 has its own attribution. Figures 3–5 are exact or explicitly labeled explanatory constructions. The scalar animation holds curvature fixed and illustrates the GD threshold. The intervention table follows paper Table 2 and Appendix C.3. Detailed assumptions and protocols are in the paper.
 
 [Back to top](#top) · [Home]({{ '/' | relative_url }})
 
