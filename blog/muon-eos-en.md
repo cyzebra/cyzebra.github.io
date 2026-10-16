@@ -110,15 +110,7 @@ GD has $$T=\operatorname{Id}$$. A nonlinear matrix transform adds its own local 
 
 **The loss change uses the current polar direction; temporal alignment also uses how that direction changes next.** These are different pieces of geometry.
 
-<div class="table-wrap" markdown="1">
-
-| Question | Scalar quadratic GD | No-momentum Muon |
-| :--- | :--- | :--- |
-| When is the step loss‑neutral? | $$\lambda=2/\eta$$ | $$s_b^M=2\rho_b/\eta$$: T1 |
-| When does alignment change sign? | Across $$\lambda=1/\eta$$; undefined at the zero update | Across $$c_k^{\mathrm{pol}}=0$$: T2 |
-| Does loss neutrality enforce equal reversal? | At $$2/\eta$$, in this scalar mode | No universal coupling |
-
-</div>
+{% include coupling-map.html %}
 
 ### T1: the conditional loss‑neutral boundary
 
@@ -228,7 +220,7 @@ To see the geometry, take the paper's $$X=I_3$$ example and restrict $$W-W_{\min
 
 **Each mode moves left by η, regardless of its initial strength.** In A, every coordinate overshoots zero and the next step reverses all three directions. In B, just one coordinate overshoots; the other two keep moving left. This makes the difference in alignment visible.
 
-T1 depends on the **sum of the initial strengths**, or trace. Alignment depends on **how many modes cross zero**. Two initial points on the same plane $$e_1+e_2+e_3=2.4\eta$$ can therefore have the same effective curvature and different next directions.
+**The key comparison is equal effective curvature with different update alignment.** T1 depends on the **sum of the initial strengths**, or trace. Alignment depends on **how many modes cross zero**. Two initial points on the same plane $$e_1+e_2+e_3=2.4\eta$$ can therefore have the same effective curvature and different next directions.
 
 {% include mechanism-matrix.html %}
 
@@ -401,7 +393,7 @@ Background: [Wu, Ma and E (2018)](https://proceedings.neurips.cc/paper/2018/file
 
 For additional geometric demos: [Neel Mishra, Muon Part 1](https://neelmishra.github.io/blog/dl/optimizers/muon.html) and [Newton–Schulz Part 2](https://neelmishra.github.io/blog/dl/optimizers/newton-schulz.html). Our new diagrams and geometric interpolation are independently implemented; no external demo assets are embedded. Reading structure takes inspiration from [Tri Dao's ReplaySSM blog](https://tridao.me/blog/2026/replayssm/).
 
-Figures 1 and 6–11 use the supplied measurements and vector PDF plots. Plots with supplied CSV/JSONL files are redrawn from those records; other line plots retain the original plotted vertices, calibrated against the PDF tick marks. The heatmaps and frozen-state intervals are preserved from the source PDFs. No experimental values or uncertainty bands are invented. Figure 2 has its own attribution. Figures 3–5 are exact or explicitly labeled explanatory constructions. The scalar animation holds curvature fixed and illustrates the GD threshold. The intervention table follows paper Table 2 and Appendix C.3. Detailed assumptions and protocols are in the paper.
+Figures 1 and 6–11 use the supplied measurements and vector PDF plots. Plots with supplied CSV/JSONL files are redrawn from those records; other line plots retain the original plotted vertices, calibrated against the PDF tick marks. The heatmaps retain the source cells. Frozen-state marker centers and interval endpoints are recovered from the supplied PDFs without changing the intervals. No experimental values or uncertainty bands are invented. Figure 2 has its own attribution. Figures 3–5 are exact or explicitly labeled explanatory constructions. The scalar animation holds curvature fixed and illustrates the GD threshold. The intervention table follows paper Table 2 and Appendix C.3. Detailed assumptions and protocols are in the paper.
 
 [Back to top](#top) · [Home]({{ '/' | relative_url }})
 

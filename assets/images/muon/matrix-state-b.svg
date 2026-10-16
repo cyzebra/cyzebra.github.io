@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 510" role="img" aria-label="Matrix state B"><title>Matrix state B</title><desc>Initial strengths, after-step signs, and next alignment.</desc><style>text{font-family:DejaVu Sans,Arial,sans-serif}path{stroke-linecap:round;stroke-linejoin:round}</style><rect width="600" height="510" fill="white"/><g transform="translate(-600 -180)"><text x="636" y="211" fill="#0F4D92" font-size="15" font-weight="700" text-anchor="start" letter-spacing="1.5">STATE B</text><text x="636" y="242" fill="#6B7C8D" font-size="15" font-weight="400" text-anchor="start" >Same initial polar step: subtract η in every mode.</text><path d="M676,420 L1130,420" fill="none" stroke="#BDC9D3" stroke-width="1" /><path d="M676,308 L1130,308" fill="none" stroke="#B88723" stroke-width="1.5" stroke-dasharray="5 5" /><text x="676" y="295" fill="#B88723" font-size="14" font-weight="400" text-anchor="start" >crossing threshold: η</text><rect x="722" y="408.8" width="56" height="11.200000000000001" rx="4" fill="#8FAFCA" stroke="none"/><text x="750" y="393.8" fill="#0F4D92" font-size="22" font-weight="600" text-anchor="middle" >0.1</text><text x="750" y="447" fill="#6B7C8D" font-size="14" font-weight="400" text-anchor="middle" >Mode 1</text><text x="750" y="480" fill="#B64342" font-size="20" font-weight="600" text-anchor="middle" >-0.9</text><rect x="872" y="296.79999999999995" width="56" height="123.20000000000002" rx="4" fill="#8FAFCA" stroke="none"/><text x="900" y="281.79999999999995" fill="#0F4D92" font-size="22" font-weight="600" text-anchor="middle" >1.1</text><text x="900" y="447" fill="#6B7C8D" font-size="14" font-weight="400" text-anchor="middle" >Mode 2</text><text x="900" y="480" fill="#42949E" font-size="20" font-weight="600" text-anchor="middle" >+0.1</text><rect x="1022" y="285.6" width="56" height="134.4" rx="4" fill="#8FAFCA" stroke="none"/><text x="1050" y="270.6" fill="#0F4D92" font-size="22" font-weight="600" text-anchor="middle" >1.2</text><text x="1050" y="447" fill="#6B7C8D" font-size="14" font-weight="400" text-anchor="middle" >Mode 3</text><text x="1050" y="480" fill="#42949E" font-size="20" font-weight="600" text-anchor="middle" >+0.2</text><text x="636" y="470" fill="#6B7C8D" font-size="11" font-weight="400" text-anchor="start" >After step</text><text x="636" y="487" fill="#6B7C8D" font-size="11" font-weight="400" text-anchor="start" >(units of η)</text><path d="M636,503 L1164,503" fill="none" stroke="#DDE5EC" stroke-width="1" /><text x="636" y="539" fill="#6B7C8D" font-size="12" font-weight="600" text-anchor="start" letter-spacing="1">NEXT STEP / η</text><svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="162.0" height="22.0" viewBox="0 0 162 22" version="1.1" x="834.0" y="523.0">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-15T23:20:28.509414</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="f9-figure_1">
+  <g id="f9-patch_1">
+   <path d="M 0 22  L 162 22  L 162 0  L 0 0  z " style="fill: #ffffff"/>
+  </g>
+  <g id="f9-text_1">
+   <!-- $(+1,-1,-1)$ -->
+   <g style="fill: #42949e" transform="translate(0 18)">
+    <text>
+     <tspan x="0" y="-0.546875" style="font-size: 23px; font-family: 'DejaVu Sans'; fill: #42949e">(</tspan>
+     <tspan x="8.973145" y="-0.546875" style="font-size: 23px; font-family: 'DejaVu Sans'; fill: #42949e">+</tspan>
+     <tspan x="28.244629" y="-0.546875" style="font-size: 23px; font-family: 'DejaVu Sans'; fill: #42949e">1</tspan>
+     <tspan x="42.87793" y="-0.546875" style="font-size: 23px; font-family: 'DejaVu Sans'; fill: #42949e">,</tspan>
+     <tspan x="59.150879" y="-0.546875" style="font-size: 23px; font-family: 'DejaVu Sans'; fill: #42949e">−</tspan>
+     <tspan x="82.90332" y="-0.546875" style="font-size: 23px; font-family: 'DejaVu Sans'; fill: #42949e">1</tspan>
+     <tspan x="97.536621" y="-0.546875" style="font-size: 23px; font-family: 'DejaVu Sans'; fill: #42949e">,</tspan>
+     <tspan x="113.80957" y="-0.546875" style="font-size: 23px; font-family: 'DejaVu Sans'; fill: #42949e">−</tspan>
+     <tspan x="137.562012" y="-0.546875" style="font-size: 23px; font-family: 'DejaVu Sans'; fill: #42949e">1</tspan>
+     <tspan x="152.195312" y="-0.546875" style="font-size: 23px; font-family: 'DejaVu Sans'; fill: #42949e">)</tspan>
+    </text>
+   </g>
+  </g>
+ </g>
+</svg><svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="130.0" height="54.0" viewBox="0 0 130 54" version="1.1" x="835.0" y="561.0">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-15T23:20:28.527580</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="f10-figure_1">
+  <g id="f10-patch_1">
+   <path d="M 0 54  L 130 54  L 130 0  L 0 0  z " style="fill: #ffffff"/>
+  </g>
+  <g id="f10-text_1">
+   <!-- $c_B^{\mathrm{pol}}=\frac{1}{3}$ -->
+   <g style="fill: #42949e" transform="translate(0 39)">
+    <text>
+     <tspan x="0" y="-0.545313" style="font-style: oblique; font-size: 37px; font-family: 'DejaVu Sans'; fill: #42949e">c</tspan>
+     <tspan x="22.06306" y="-19.323438" style="font-size: 25.9px; font-family: 'DejaVu Sans'; fill: #42949e">p</tspan>
+     <tspan x="38.50349" y="-19.323438" style="font-size: 25.9px; font-family: 'DejaVu Sans'; fill: #42949e">o</tspan>
+     <tspan x="54.349535" y="-19.323438" style="font-size: 25.9px; font-family: 'DejaVu Sans'; fill: #42949e">l</tspan>
+     <tspan x="107.976048" y="-16.748438" style="font-size: 25.9px; font-family: 'DejaVu Sans'; fill: #42949e">1</tspan>
+     <tspan x="107.976048" y="14.042187" style="font-size: 25.9px; font-family: 'DejaVu Sans'; fill: #42949e">3</tspan>
+     <tspan x="20.342773" y="9.571875" style="font-style: oblique; font-size: 25.9px; font-family: 'DejaVu Sans'; fill: #42949e">B</tspan>
+     <tspan x="69.765599" y="-0.545313" style="font-size: 37px; font-family: 'DejaVu Sans'; fill: #42949e">=</tspan>
+    </text>
+    <rect x="107.976048" y="-8.498438" width="16.478369" height="2.3125"/>
+   </g>
+  </g>
+ </g>
+</svg><text x="900" y="654" fill="#6B7C8D" font-size="17" font-weight="400" text-anchor="middle" >Only one mode reverses</text></g></svg>
