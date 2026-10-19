@@ -281,7 +281,7 @@ Summing these increments would send loss to negative infinity if the cumulative 
 
 </details>
 
-<h2 id="experiments">4. Do the diagnostics separate along training?</h2>
+<h2 id="experiments">4. How these diagnostics behave along LLM pre-training?</h2>
 
 The matrix example proves that loss curvature need not determine temporal alignment. We first test how batch size affects that separation, then ask whether a related pattern persists in language-model training.
 
