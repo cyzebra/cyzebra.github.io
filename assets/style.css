@@ -63,3 +63,22 @@ mjx-container[display=true],.math.display{display:block;max-width:100%;overflow-
  .article-sidebar,.hero-toolbar{display:none!important}
  .hero-animated{break-inside:avoid}
 }
+
+/* Question-led reading layout; left navigation remains persistent on desktop. */
+.article-shell article>p,.article-shell article>ul,.article-shell article>ol{max-width:740px}
+.article-shell article>p{margin-top:23px;margin-bottom:23px}
+.article-shell article>h2{margin-top:80px;padding-top:22px}
+.article-shell .standfirst{font-size:22px;line-height:1.55}
+.article-shell .research-figure figcaption{font-size:14px;line-height:1.75}
+.article-shell .research-figure.hero-results{background:#fff;border:0;border-radius:0;padding:10px 0 18px}
+.article-shell .takeaway{background:transparent}
+.toc-disclosure>summary{display:none}
+.schedule-path{max-width:940px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 0;margin:30px auto;font-size:15px;line-height:1.65;counter-reset:stage}
+.schedule-path p{margin:0;counter-increment:stage}
+.schedule-path p:before{content:'0' counter(stage);display:block;font-size:12px;letter-spacing:.1em;color:var(--accent);margin-bottom:9px}
+.schedule-path strong{color:var(--accent)}
+@media(min-width:1101px){.toc-disclosure:not([open])>.article-toc{display:flex}}
+@media(max-width:1100px){.toc-disclosure>summary{display:list-item;cursor:pointer;font-size:14px;color:var(--accent);padding:8px 0}.article-sidebar .article-toc{margin-top:8px}}
+@media(max-width:700px){.schedule-path{grid-template-columns:1fr;gap:20px}.article-shell article>h2{margin-top:55px}.article-shell .standfirst{font-size:19px}}
+
+.toc-disclosure:not([open])>summary{display:list-item;cursor:pointer;color:var(--accent)}
