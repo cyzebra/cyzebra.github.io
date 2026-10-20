@@ -23,7 +23,7 @@ We study how conditional loss balance and consecutive-update alignment separate 
 
 ## Blog
 
-### How Muon Reshapes the Edge of Stability
+### How Muon Sublates the Edge of Stability
 
 A visual guide to how Muon retains a loss-side edge while uncoupling it from temporal reversal, through update geometry, two thresholds, and training evidence.
 

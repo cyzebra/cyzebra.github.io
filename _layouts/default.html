@@ -19,7 +19,10 @@
       <a href="https://github.com/cyzebra">GitHub</a>
     </nav>
   </header>
-  <main id="main-content"><article>{{ content }}</article></main>
+  <main id="main-content"{% if page.article %} class="article-shell"{% endif %}>
+    {% if page.article %}{% include article-toc.html %}{% endif %}
+    <article>{{ content }}</article>
+  </main>
   <footer>Yanzhe Chen · Research notes · <a href="https://github.com/cyzebra">GitHub</a></footer>
 </body>
 </html>

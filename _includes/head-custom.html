@@ -27,3 +27,5 @@ window.MathJax = {
 <script defer src="{{ '/assets/animations.js' | relative_url }}"></script>
 {% endif %}
 <script defer src="{{ '/assets/geometry.js' | relative_url }}"></script>
+
+{% if page.article %}<script defer src="{{ '/assets/article.js' | relative_url }}"></script>{% endif %}

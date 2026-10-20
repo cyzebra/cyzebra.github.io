@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "How Muon Reshapes the Edge of Stability"
+title: "How Muon Sublates the Edge of Stability"
 description: "A loss‑neutral edge survives under no-momentum Muon, but its classical coupling to update reversal breaks."
 permalink: /blog/muon-eos-en/
 lang: en
@@ -12,7 +12,7 @@ animations: true
 <div class="article-header" markdown="1">
 <p class="eyebrow">Optimization · Muon · LLM pretraining</p>
 
-# How Muon Reshapes the Edge of Stability
+# How Muon Sublates the Edge of Stability
 
 <p class="byline">Yanzhe Chen · With Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu</p>
 <p class="standfirst">A loss‑neutral edge survives. Its classical coupling to update reversal does not.</p>
@@ -30,8 +30,6 @@ The three panels show the puzzle: **loss-boundary tracking, weak negative direct
 </div>
 
  Our paper explains the split through two diagnostics: **T1**, the conditional loss‑neutral boundary, and **T2**, the temporal-orthogonality boundary. The contribution is a characterization of what remains coupled—and what no longer does—when updates become matrix‑aware.
-
-<nav class="article-toc" aria-label="Article contents"><span>Contents</span><a href="#stability">1. What is EoS?</a><a href="#muon">2. What Muon changes</a><a href="#diagnostics">3. Why the edge splits</a><a href="#experiments">4. Training evidence</a><a href="#interventions">5. Rate interventions</a><a href="#scale">6. Noise, layers and scale</a><a href="#outlook">7. What survives</a></nav>
 
 <h2 id="stability">1. What is the Edge of Stability?</h2>
 
@@ -281,7 +279,7 @@ Summing these increments would send loss to negative infinity if the cumulative 
 
 </details>
 
-<h2 id="experiments">4. How these diagnostics behave along LLM pre-training?</h2>
+<h2 id="experiments">4. Do the diagnostics separate along training?</h2>
 
 The matrix example proves that loss curvature need not determine temporal alignment. We first test how batch size affects that separation, then ask whether a related pattern persists in language-model training.
 
@@ -309,13 +307,23 @@ The LLM runs use no-momentum NS-5 on Muon blocks and AdamW on auxiliary paramete
 
 </div>
 
-Return to **Figure 1** at the top. It shows the coupled empirical picture we want to explain: conditional loss-boundary tracking, weak negative temporal alignment, and continued validation improvement.
+Return to [**Figure 1**](#fig-1) at the top. It shows the coupled empirical picture we want to explain: conditional loss-boundary tracking, weak negative temporal alignment, and continued validation improvement.
 
 
 
 Across four peak-rate runs, full-horizon cosine medians range from approximately $$-0.048$$ to $$-0.032$$. The central empirical pattern is **sustained negative alignment close to orthogonality**, together with continued learning.
 
 The loss measurements have different scopes. Boundary tracking comes from finite-reference, **Muon-only checkpoint probes**. Validation improvement comes from complete **Muon-plus-AdamW training**. A near-zero conditional probe increment does not mean that the full run has stopped learning.
+
+<h3 id="optimizer-memory">What changes with momentum and AdamW?</h3>
+
+Does the weak negative alignment persist when the optimizer carries memory? Our additional 130M runs show a different directional picture: **Muon with momentum 0.95 and AdamW both maintain positive alignment between consecutive updates.**
+
+Over the common window from updates 500 to 36,827, their mean global cosines are approximately **0.712** and **0.891**, respectively. Every recorded global cosine is positive in both runs. The positive sign also persists in all 12 layers and all 84 individual matrix blocks, so it is not an artifact of averaging positive and negative blocks together.
+
+{% include optimizer-grid.html %}
+
+The intuition is that **a momentum update inherits directional information from earlier steps**. Consecutive updates reuse part of the same gradient history, making persistent positive alignment natural even as fresh minibatches change. AdamW also carries a moving average of past gradients. This contrasts with the weakly negative, nearly orthogonal directions of the no-momentum Muon run in [Figure 1](#fig-1): optimizer memory adds temporal persistence to the directional picture.
 
 <h2 id="interventions">5. Change the learning rate at the same checkpoint</h2>
 
@@ -381,7 +389,7 @@ For schedule design, the two signals answer complementary questions:
 
 Their joint response may inform WSD learning-rate choices and a data-driven critical batch size. Cosine alone does not justify increasing the rate; conditional loss response, validation loss and token budgets also matter. An optimized adaptive scheduler remains future work.
 
-These results concern **Muon without momentum**. Momentum adds temporal filtering and optimizer state, so the conclusions should not be transferred unchanged.
+The loss-boundary analysis centers on **Muon without momentum**. The additional momentum-Muon and AdamW runs complement it with a different directional regime: updates retain information from their shared history and show persistent positive alignment.
 
 <div class="article-sources" markdown="1">
 
@@ -391,6 +399,9 @@ Yanzhe Chen, Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu. [*Muon Sublates the Edge
 
 Background: [Wu, Ma and E (2018)](https://proceedings.neurips.cc/paper/2018/file/6651526b6fb8f29a00507de6a49ce30f-Paper.pdf); [Cohen et al. (2021)](https://arxiv.org/abs/2103.00065); [Jordan et al., Muon](https://kellerjordan.github.io/posts/muon/); [Bernstein, Deriving Muon](https://jeremybernste.in/writing/deriving-muon).
 
+For additional geometric demos: [Neel Mishra, Muon Part 1](https://neelmishra.github.io/blog/dl/optimizers/muon.html) and [Newton–Schulz Part 2](https://neelmishra.github.io/blog/dl/optimizers/newton-schulz.html). Our new diagrams and geometric interpolation are independently implemented; no external demo assets are embedded. Reading structure takes inspiration from [Tri Dao's ReplaySSM blog](https://tridao.me/blog/2026/replayssm/).
+
+Figures 1 and 6–12 use the supplied measurements and vector PDF plots. Plots with supplied CSV/JSONL files are redrawn from those records; other line plots retain the original plotted vertices, calibrated against the PDF tick marks. The heatmaps retain the source cells. Frozen-state marker centers and interval endpoints are recovered from the supplied PDFs without changing the intervals. No experimental values or uncertainty bands are invented. Figure 2 has its own attribution. Figures 3–5 are exact or explicitly labeled explanatory constructions. The scalar animation holds curvature fixed and illustrates the GD threshold. The intervention table follows paper Table 2 and Appendix C.3. Detailed assumptions and protocols are in the paper.
 
 [Back to top](#top) · [Home]({{ '/' | relative_url }})
 
