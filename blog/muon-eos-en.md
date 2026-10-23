@@ -399,11 +399,10 @@ The learning-rate branches suggest a practical next question: **could we use the
 For the loss-side signal, define the distance from conditional balance as
 
 $$
-D_b(W;eta)=s_b^M(W;eta)-rac{2
-ho_b(W)}{eta}.
+D_b(W;\eta)=s_b^M(W;\eta)-\frac{2\rho_b(W)}{\eta}.
 $$
 
-By the conditional identity, negative $$D_b$$ means expected descent, zero means loss neutrality, and positive $$D_b$$ means an expected increase for the analyzed step. Alongside it, track $$c_k^{mathrm{pol}}$$ to describe the temporal direction response. **A loss-neutral step and a nearly orthogonal next direction are separate observations, and a scheduler can use both.**
+By the conditional identity, negative $$D_b$$ means expected descent, zero means loss neutrality, and positive $$D_b$$ means an expected increase for the analyzed step. Alongside it, track $$c_k^{\mathrm{pol}}$$ to describe the temporal direction response. **A loss-neutral step and a nearly orthogonal next direction are separate observations, and a scheduler can use both.**
 
 #### Learning rate: measure how the balance moves
 
