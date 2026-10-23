@@ -438,7 +438,6 @@ Background: [Wu, Ma and E (2018)](https://proceedings.neurips.cc/paper/2018/file
 
 For additional geometric demos: [Neel Mishra, Muon Part 1](https://neelmishra.github.io/blog/dl/optimizers/muon.html) and [Newton–Schulz Part 2](https://neelmishra.github.io/blog/dl/optimizers/newton-schulz.html). Our new diagrams and geometric interpolation are independently implemented; no external demo assets are embedded. The question-led exposition and figure walkthroughs take inspiration from [Central Flows](https://centralflows.github.io/); expandable technical details also draw on [Tri Dao's ReplaySSM blog](https://tridao.me/blog/2026/replayssm/).
 
-Figures 1 and 6–12 use the supplied measurements and vector PDF plots. Plots with supplied CSV/JSONL files are redrawn from those records; other line plots retain the original plotted vertices, calibrated against the PDF tick marks. The heatmaps retain the source cells. Frozen-state marker centers and interval endpoints are recovered from the supplied PDFs without changing the intervals. No experimental values or uncertainty bands are invented. Figure 2 has its own attribution. Figures 3–5 are exact or explicitly labeled explanatory constructions. The scalar animation holds curvature fixed and illustrates the GD threshold. The intervention table follows paper Table 2 and Appendix C.3. Detailed assumptions and protocols are in the paper.
 
 [Back to top](#top) · [Home]({{ '/' | relative_url }})
 
