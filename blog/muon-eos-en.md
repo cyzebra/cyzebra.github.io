@@ -85,7 +85,7 @@ Here $$\|D\|_2$$ is the matrix spectral norm, and $$\|G\|_*$$ is the nuclear nor
 <details class="technical" markdown="1">
 <summary>Why does the nuclear norm appear?</summary>
 
-Write $$G=U_r\Sigma_rV_r^\top$$. For any $$\|D\|_2\leq1$$, each active singular pair satisfies $$|u_i^\top Dv_i|\leq1$$. Consequently,
+Write $$G=U_r\Sigma_rV_r^\top$$. For any $$\|D\|_2\leq1$$, each active singular pair satisfies $$\lvert u_i^\top Dv_i\rvert\leq1$$. Consequently,
 
 $$
 \langle G,D\rangle_F=\sum_{i=1}^{r}\sigma_i u_i^\top Dv_i
@@ -238,7 +238,7 @@ $$
 Because $$P_k^\top P_k=I_d$$, its next stretch and polar factors are
 
 $$
-S_{k+1}=|S_k-\eta XX^\top|,
+S_{k+1}=\lvert S_k-\eta XX^\top\rvert,
 \qquad P_{k+1}=P_k\operatorname{sign}(S_k-\eta XX^\top).
 $$
 
@@ -437,7 +437,6 @@ Yanzhe Chen, Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu. [*Muon Sublates the Edge
 Background: [Wu, Ma and E (2018)](https://proceedings.neurips.cc/paper/2018/file/6651526b6fb8f29a00507de6a49ce30f-Paper.pdf); [Cohen et al. (2021)](https://arxiv.org/abs/2103.00065); [Jordan et al., Muon](https://kellerjordan.github.io/posts/muon/); [Bernstein, Deriving Muon](https://jeremybernste.in/writing/deriving-muon).
 
 For additional geometric demos: [Neel Mishra, Muon Part 1](https://neelmishra.github.io/blog/dl/optimizers/muon.html) and [Newton–Schulz Part 2](https://neelmishra.github.io/blog/dl/optimizers/newton-schulz.html). Our new diagrams and geometric interpolation are independently implemented; no external demo assets are embedded. The question-led exposition and figure walkthroughs take inspiration from [Central Flows](https://centralflows.github.io/); expandable technical details also draw on [Tri Dao's ReplaySSM blog](https://tridao.me/blog/2026/replayssm/).
-
 
 [Back to top](#top) · [Home]({{ '/' | relative_url }})
 
