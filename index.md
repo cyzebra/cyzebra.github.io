@@ -27,4 +27,4 @@ We study how conditional loss balance and consecutive-update alignment separate 
 
 A visual guide to how Muon retains a loss-side edge while uncoupling it from temporal reversal, through update geometry, two thresholds, and training evidence.
 
-[Read the blog]({{ '/blog/muon-eos-en/' | relative_url }})
+[English]({{ '/blog/muon-eos-en/' | relative_url }}) · [中文版]({{ '/blog/muon-eos-zh/' | relative_url }})
