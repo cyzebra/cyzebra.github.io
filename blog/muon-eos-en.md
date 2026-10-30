@@ -17,6 +17,7 @@ animations: true
 <p class="byline">Yanzhe Chen · With Qifang Zhao, Xiaoxiao Xu, and Fanghui Liu</p>
 <p class="standfirst">What survives at the edge—and what changes when updates become matrix-aware?</p>
 <div class="article-links"><a href="https://arxiv.org/abs/2609.34915">Paper ↗</a><a href="https://github.com/cyzebra/Muon-Sublates-the-Edge-of-Stability-in-LLM-Pretraining">Code ↗</a></div>
+<a href="{{ '/blog/muon-eos-zh/' | relative_url }}">中文版</a>
 </div>
 
 **What does training at the edge of stability look like when the optimizer is Muon?** Let's start with a 130M language model. Watch the three panels below as training unfolds: the loss improves, the measured curvature approaches a loss-balance boundary, and consecutive update directions settle slightly below zero alignment.
