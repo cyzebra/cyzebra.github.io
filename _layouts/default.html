@@ -9,18 +9,18 @@
   {% include head-custom.html %}
 </head>
 <body id="top">
-  <a class="skip-link" href="#main-content">Skip to content</a>
+  <a class="skip-link" href="#main-content">{% if page.lang == 'zh-CN' %}跳至正文{% else %}Skip to content{% endif %}</a>
   <header class="site-header">
     <a class="brand" href="{{ '/' | relative_url }}">{{ site.title | escape }}</a>
     <nav aria-label="Main navigation">
-      <a href="{{ '/' | relative_url }}">Home</a>
-      <a href="{{ '/#research' | relative_url }}">Research</a>
-      <a href="{{ '/#blog' | relative_url }}">Blog</a>
+      <a href="{{ '/' | relative_url }}">{% if page.lang == 'zh-CN' %}首页{% else %}Home{% endif %}</a>
+      <a href="{{ '/#research' | relative_url }}">{% if page.lang == 'zh-CN' %}研究{% else %}Research{% endif %}</a>
+      <a href="{{ '/#blog' | relative_url }}">{% if page.lang == 'zh-CN' %}博客{% else %}Blog{% endif %}</a>
       <a href="https://github.com/cyzebra">GitHub</a>
     </nav>
   </header>
   <main id="main-content"{% if page.article %} class="article-shell"{% endif %}>
-    {% if page.article %}{% include article-toc.html %}{% endif %}
+    {% if page.article %}{% if page.lang == 'zh-CN' %}{% include article-toc-zh.html %}{% else %}{% include article-toc.html %}{% endif %}{% endif %}
     <article>{{ content }}</article>
   </main>
   <footer>Yanzhe Chen · Research notes · <a href="https://github.com/cyzebra">GitHub</a></footer>
