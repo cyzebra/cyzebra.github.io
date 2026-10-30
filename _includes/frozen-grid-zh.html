@@ -1,0 +1,9 @@
+<figure class="research-figure frozen-figure"><div class="measurement-setup"><div><span class="setup-label">固定模型状态</span><div class="setup-equation" markdown="1">
+
+$$W_k\;\xrightarrow{\;B,B'\;\text{independent}\;}\;P(W_k;B),\;P(W_k;B')$$
+
+</div><p>在同一检查点重新采样更新方向。</p></div><div><span class="setup-label">沿训练轨迹前进</span><div class="setup-equation" markdown="1">
+
+$$W_k\;\longrightarrow\;W_{k+1},\qquad P_k\;\text{vs.}\;P_{k+1}$$
+
+</div><p>比较相邻状态下的更新方向。</p></div></div><div class="panel-key"><span><i class="key-gold"></i>固定状态 · 均值与 95% 区间</span><span><i class="key-blue"></i>时间相邻 · 实测轨迹</span></div><div class="figure-grid figure-grid-two"><div><h4>随机种子 2026</h4><a class="figure-link" href="{{ '/assets/images/muon/frozen-refined-2026.svg' | relative_url }}"><img src="{{ '/assets/images/muon/frozen-refined-2026.svg' | relative_url }}" alt="图 11 · 采样离散性与时间反馈留下不同的符号。" loading="lazy" decoding="async"></a></div><div><h4>随机种子 1337</h4><a class="figure-link" href="{{ '/assets/images/muon/frozen-refined-1337.svg' | relative_url }}"><img src="{{ '/assets/images/muon/frozen-refined-1337.svg' | relative_url }}" alt="图 11 · 采样离散性与时间反馈留下不同的符号。" loading="lazy" decoding="async"></a></div></div><figcaption><strong>图 11 · 采样离散性与时间反馈留下不同的符号。</strong> Tiny Transformer，批大小为 8。金色点比较同一固定状态下独立小批量的方向，竖线保留原始逐批删除 jackknife 的 95% 区间。蓝色曲线比较训练轨迹中相邻方向。两个随机种子使用相同坐标尺度，不添加平滑或连续不确定性带。</figcaption></figure>

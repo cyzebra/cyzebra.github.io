@@ -24,8 +24,8 @@ window.MathJax = {
 {% endif %}
 
 {% if page.animations %}
-<script defer src="{{ '/assets/animations.js' | relative_url }}"></script>
+{% if page.lang == 'zh-CN' %}<script defer src="{{ '/assets/animations-zh.js' | relative_url }}"></script>{% else %}<script defer src="{{ '/assets/animations.js' | relative_url }}"></script>{% endif %}
 {% endif %}
-<script defer src="{{ '/assets/geometry.js' | relative_url }}"></script>
+{% if page.lang == 'zh-CN' %}<script defer src="{{ '/assets/geometry-zh.js' | relative_url }}"></script>{% else %}<script defer src="{{ '/assets/geometry.js' | relative_url }}"></script>{% endif %}
 
-{% if page.article %}<script defer src="{{ '/assets/article.js' | relative_url }}"></script>{% endif %}
+{% if page.article %}{% if page.lang == 'zh-CN' %}<script defer src="{{ '/assets/article-zh.js' | relative_url }}"></script>{% else %}<script defer src="{{ '/assets/article.js' | relative_url }}"></script>{% endif %}{% endif %}

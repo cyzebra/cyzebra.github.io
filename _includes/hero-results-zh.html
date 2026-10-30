@@ -1,0 +1,8 @@
+<figure id="fig-1" class="research-figure hero-results hero-animated" data-hero-animation>
+  <picture>
+    <source media="(max-width:700px)" srcset="{{ '/assets/images/muon/figure1-mobile.svg' | relative_url }}" data-poster="{{ '/assets/images/muon/figure1-mobile.svg' | relative_url }}" data-motion="{{ '/assets/images/muon/figure1-mobile.gif' | relative_url }}">
+    <img src="{{ '/assets/images/muon/figure1.svg' | relative_url }}" data-poster="{{ '/assets/images/muon/figure1.svg' | relative_url }}" data-motion="{{ '/assets/images/muon/figure1.gif' | relative_url }}" alt="图 1 · 在损失侧边缘附近持续学习。" width="1980" height="715" fetchpriority="high">
+  </picture>
+  <div class="hero-toolbar"><button type="button" data-hero-toggle aria-pressed="false" hidden>播放动画</button><a class="figure-link hero-static-link" href="{{ '/assets/images/muon/figure1.svg' | relative_url }}"><span>打开完整尺寸图 ↗</span><img src="{{ '/assets/images/muon/figure1.svg' | relative_url }}" alt="图 1 · 在损失侧边缘附近持续学习。" hidden></a><span class="hero-motion-note">三幅图同步播放 · 早期更新慢放</span></div>
+  <figcaption><strong>图 1 · 在损失侧边缘附近持续学习。</strong> 130M 基线（Muon 峰值学习率 0.02）跟随条件损失边界；经过早期过渡后，相邻方向保持较弱的负向对齐。损失对应完整的 Muon 与 AdamW 联合训练，平衡量来自仅施加 Muon 更新的检查点探测。对齐曲线从第 0 步开始，保留全部已记录的早期更新；主平衡图从第 500 步开始。<strong>中间面板内的局部放大图展示第 0–500 步</strong>，纵轴采用对称对数尺度，包含初始略为负值的曲率。浅色轨迹展示全程，彩色轨迹逐步揭示原始观测，不作平滑。前 500 步慢速播放；点击“暂停 · 显示全部数据”可查看完整图。</figcaption>
+</figure>
