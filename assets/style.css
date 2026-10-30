@@ -82,3 +82,8 @@ mjx-container[display=true],.math.display{display:block;max-width:100%;overflow-
 @media(max-width:700px){.schedule-path{grid-template-columns:1fr;gap:20px}.article-shell article>h2{margin-top:55px}.article-shell .standfirst{font-size:19px}}
 
 .toc-disclosure:not([open])>summary{display:list-item;cursor:pointer;color:var(--accent)}
+
+/* Chinese reading typography */
+html[lang="zh-CN"] body {font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; line-height:1.9;}
+html[lang="zh-CN"] h1,html[lang="zh-CN"] h2,html[lang="zh-CN"] h3 {letter-spacing:0;line-height:1.45;}
+html[lang="zh-CN"] .article-toc {line-height:1.65;}
